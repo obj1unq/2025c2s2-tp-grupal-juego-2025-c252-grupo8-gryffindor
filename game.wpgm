@@ -1,0 +1,17 @@
+import wollok.game.*
+import juego.*
+
+
+
+program juegoGame {
+    game.title("Quirrel") 	//Valor por defecto "Wollok Game"
+	game.height(13) 		//valor por defecto 5
+	game.width(13) 			//valor por defecto 5
+	game.cellSize(50) 		//valor por defecto 50
+
+    game.boardGround("gondoNivel1.jpg")
+
+    game.addVisual(quirrel)    
+	game.addVisual(quirrel)
+	
+}
