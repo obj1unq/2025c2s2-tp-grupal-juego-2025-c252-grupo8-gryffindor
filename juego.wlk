@@ -23,18 +23,18 @@ object juego {
     keyboard.c().onPressDo{quirrel.atacarAEnemigo(enemigo)}
     keyboard.x().onPressDo{quirrel.bloquear()}
     game.boardGround("fondo2.jpg")
-    game.onTick(1000.randomUpTo(3000), "enemigo Mover", { => enemigo.moverse() })
+   // game.onTick(1000.randomUpTo(3000), "enemigo Mover", { => enemigo.moverse() })
     game.onCollideDo(quirrel, {cosa => cosa.atacar(quirrel)})    
-  game.onTick(2000, "spawnear enemigo", { => enemigo.spawnear() }) // cada 2 segundos se spawnea un enemigo
+ // game.onTick(2000, "spawnear enemigo", { => enemigo.spawnear() }) // cada 2 segundos se spawnea un enemigo
   game.onTick(3000, "spawnear proyectil", { => proyectil.spawnear() }) // cada 3 segundos se spawnea un proyectil
-  game.onTick(4000, "mover proyectil", { => proyectil.moverse() }) // cada 0.5 segundos se mueve el proyectil
+  game.onTick(2000, "mover proyectil", { => proyectil.moverse() }) // cada 0.5 segundos se mueve el proyectil
 
 }
 }
 
 object quirrel {
 var property direccionActual = dirRight // esta variable guarda la ultima direccion hacia la que miraba  quirrel
-  var property image = direccionActual.image()
+  var property image = "quirrel.png"
   var property position = game.center()
   var vidasDeQuirrel = 1
   var puntitos = 0
@@ -51,7 +51,7 @@ var property direccionActual = dirRight // esta variable guarda la ultima direcc
 
     method recibirDanio(danioRecibido) { // Se utiliza en la colision de enemigo con Quirrel.
       vidasDeQuirrel -= danioRecibido
-      if (vidasDeQuirrel == 0){
+      if (vidasDeQuirrel <= 0){
         game.say(self, "Me quede sin vidas")        // los game.say() no se estan ejecutando correctamente
         game.schedule(2000, { game.stop() })        // el programa si se detiene cuando quirrel se queda sin vida.
       }
@@ -70,7 +70,7 @@ var property direccionActual = dirRight // esta variable guarda la ultima direcc
   method bloquear() {
     self.modoCubriendo()
     image = direccionActual.image() 
-   game.schedule(1000, {self.modoNormal()})  // despues de una deicma de segundo vuelve a modo normal 
+   game.schedule(3000, {self.modoNormal()})  // despues de segundo vuelve a modo normal 
   }
   
   method atacarEnemigoEnDireccion(enemigo, direccion){// si el enemigo esta dentro del margen  de ataque de la direccion actual hacia la que mira quirrel se ejecuta este metodo
@@ -80,11 +80,11 @@ var property direccionActual = dirRight // esta variable guarda la ultima direcc
     game.say(self, "fuiste eliminado")                //se ejecuta correctamente
     self.sumarPuntaje(100)
     game.schedule(500, {position = game.center() })   // esto hace que quirrel vuelva a su posicion luego de eliminar al enemigo
+    
     }
   }
  
 }
-
 
 
 ///------------------DIRECCIONES Quirrel-------------------///
@@ -171,7 +171,7 @@ object dirLeft {
       "quirrel-cubriendo-izquierda.png"
    } 
    else if (personaje.modo() == "atacando"){
-      "quirrel-atacando-izquieda.png"
+      "quirrel-atacando-izquierda.png"
    } else {
       "quirrel-izquierda.png"
    } }
@@ -207,7 +207,7 @@ object dirRight {
    else if (personaje.modo() == "atacando"){
       "quirrel-atacando-derecha.png"
    } else {
-      "quirrel-derecha.png"
+      "quirrel.png"
    }
   }
 

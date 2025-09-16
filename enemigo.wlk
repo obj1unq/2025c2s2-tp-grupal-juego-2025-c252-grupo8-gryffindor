@@ -25,6 +25,7 @@ if (elegido.puedeBloquearse()){
   self.serBloqueado()}
 else{
   protagonista.recibirDanio(2)
+  game.removeVisual(self)
 }
 }
 method serBloqueado(){
@@ -47,6 +48,7 @@ method serBloqueado(){
 
   method atacar(protagonista){
     protagonista.recibirDanio(1)
+    game.removeVisual(self)
    }
 
   method moverse(){
@@ -77,7 +79,7 @@ object dirUpEnemy {
     return aMover.down(1)
   }
   method puedeBloquearse() {
-    return protagonista.direccionActual() == facing
+    return protagonista.direccionActual() == facing and protagonista.modo() == "cubriendo"
   }
 }
 
@@ -89,7 +91,7 @@ object dirDownEnemy {
   const facing = dirDown
  
    method puedeBloquearse() {
-    return protagonista.direccionActual() == facing
+    return protagonista.direccionActual() == facing and protagonista.modo() == "cubriendo"
   }
 
 
@@ -118,7 +120,7 @@ const facing = dirLeft
     return position
   }
   method puedeBloquearse() {
-    return protagonista.direccionActual() == facing
+    return protagonista.direccionActual() == facing and protagonista.modo() == "cubriendo"
   }
 }
 
@@ -128,7 +130,7 @@ object dirRightEnemy {
 const protagonista = quirrel
 const facing = dirRight
     method puedeBloquearse() {
-    return protagonista.direccionActual() == facing
+    return protagonista.direccionActual() == facing and protagonista.modo() == "cubriendo"
   }
 
   method spawn() {
