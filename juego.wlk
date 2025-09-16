@@ -15,15 +15,19 @@ import enemigo.*
 
    method atacarDireccion(direccion) {
      imagen = direccion.image()
-    direccion.puedeAtacarA(enemigo)
+    direccion.validarAtacarA(enemigo)
     enemigo.eliminarEnemigo()
    }
+
+    method atacar(direccion) {
+      game.onTick(1000, "seguirSilvestre", { => quirrel.atacarDireccion(direccion) })
+    }
    
    method sumarPuntaje(puntaje) {
      puntitos = puntitos+puntaje
    }
 
-    
+
  
 
 ///------------------ELIMINAR ENEMIGO PRUEBA-------------------///
@@ -51,6 +55,7 @@ import enemigo.*
  object dirUp {
    var property imagen = "quirrel-arriba.png"
    var property position = game.center()
+   const enemigos = #{enemigo}
 
    method image() {
     return imagen 
@@ -61,6 +66,10 @@ import enemigo.*
 
    method puedeAtacarA(enemigo){
         return  enemigo.position().y().between(self.position().y()+1, self.position().y()+2)
+    }
+
+    method name() {
+      enemigos.filter{enemigo => enemigo.puedeAtacarA(enemigo)}
     }
 
 
@@ -122,7 +131,7 @@ import enemigo.*
 
  object enemigo {
    var property imagen = "quirrel-muerto.png"
-   var property position = game.at(0, quirrel.position().y())
+   var property position = game.at(0,6)
    method image() {
     return imagen 
    }
@@ -130,11 +139,13 @@ import enemigo.*
     return position
    }
    method eliminarEnemigo(){ 
+   
         game.removeVisual(self) 
    }
    method moverse(){
-    position = game.at(position.x()+1, position.y())
-    return position
+     //imagen = "quirell-muerto.png"
+    position = position.right(1)
+    //return position
    }
  }
 
