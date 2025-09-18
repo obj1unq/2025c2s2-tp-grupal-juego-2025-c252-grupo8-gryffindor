@@ -19,6 +19,7 @@ class Enemigo {
   method serAtacado() { 
     //al ser atacado, el enemigo desaparece
     game.removeVisual(self) 
+    mapa.sacarEnemigo(self)
   }
 
   method atacar(protagonista) {
@@ -74,6 +75,7 @@ class Proyectil {
 
   method verificarSiPuedeAtacar(){
     if(elegido.puedeBloquearse()){
+      game.removeVisual(self)
       self.error("Quirrel esta protegido")
     }
   }

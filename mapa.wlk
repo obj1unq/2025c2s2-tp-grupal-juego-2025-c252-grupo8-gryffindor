@@ -1,6 +1,7 @@
 import wollok.game.*
 import direccionesEnemigos.*
 import clases.*
+
 object primerNivel {
 const property enemigos = []
 const proyectiles = []

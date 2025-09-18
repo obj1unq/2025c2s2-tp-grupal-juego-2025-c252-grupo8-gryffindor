@@ -91,8 +91,8 @@ object dirRight {
     return "quirrel-"+estado+"-derecha.png"
   }
 
-  method moverse() {
-    position = position.right(1)
+  method moverse(aMover) {
+    return aMover.right(1)
   }
 
   method puedeAtacarA(enemigo) {

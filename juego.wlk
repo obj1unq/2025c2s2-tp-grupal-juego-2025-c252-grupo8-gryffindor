@@ -26,7 +26,7 @@ object juego {
     keyboard.left().onPressDo{ quirrel.mirarHaciaDireccion(dirLeft) }
     keyboard.up().onPressDo{ quirrel.mirarHaciaDireccion(dirUp) }
     keyboard.down().onPressDo{ quirrel.mirarHaciaDireccion(dirDown) }
-    keyboard.x().onPressDo{ quirrel.atacarAEnemigo() }
+    keyboard.x().onPressDo{ quirrel.atacarAEnemigos() }
     keyboard.c().onPressDo{ quirrel.bloquear() }
     game.onTick(4000, "spawnear enemigo", { const nuevoEnemigo = new Enemigo(); nuevoEnemigo.spawnear(); })
     game.onTick(10000, "spawnear proyectil", { const nuevoProyectil = new Proyectil(); nuevoProyectil.spawnear() })
@@ -55,11 +55,9 @@ object quirrel {
 
 
 // ------------QUIRREL ATACANDO---------------
-  method atacarAEnemigo() {
-   self.validarSiHayAmigosCercanos()
-    estado = atacando
-    self.enemigosCercanos().forEach{ enemigo => self.atacar(enemigo) }
-    game.schedule(2000, { => estado = normal })
+
+  method enemigosCercanos(){  // devuelve una lista con los enemigos cercanos que vienen en la direccion actual.
+    return mapa.enemigos().filter{ enemigo =>  direccionActual.puedeAtacarA(enemigo) }//
   }
 
   method validarSiHayAmigosCercanos(){
@@ -68,24 +66,33 @@ object quirrel {
     }   
   }
 
-  method enemigosCercanos(){  // devuelve una lista con los enemigos cercanos que vienen en la direccion actual.
-    return mapa.enemigos().filter{ enemigo =>  direccionActual.puedeAtacarA(enemigo) }//
+  method atacarAEnemigos() {
+    self.validarSiHayAmigosCercanos()
+    self.enemigosCercanos().forEach{ enemigo => self.atacarEnemigo(enemigo) }
+    game.schedule(500, { => estado = normal })
   }
 
- method atacar(enemigo){
-    if(game.hasVisual(enemigo)){
-      direccionActual.moverse(Position)
-      enemigo.serAtacado()
-      self.enemigoEliminado(enemigo.puntos())
-      game.schedule(500, { position = game.center() }) 
-    }
+
+ method atacarEnemigo(enemigo){
+    estado = atacando
+    position = direccionActual.moverse(position)
+    enemigo.serAtacado()
+    self.sumarPuntaje(enemigo.puntos())
+    game.say(self, "Muere!!, ahora tengo "+ puntitos +" puntos")
+    game.schedule(500, { position = game.center() }) 
+    
   }
+
+
+
+
+
+
+//-------------QUIRREL RECIBIR DAÑO
 
   method puedeRecibirDanio(){ // indica si el estado actual de quirrel puede recibir algun daño
     return estado.puedeRecibirDanio()
   }
-
-//-------------QUIRREL RECIBIR DAÑO
 
   method recibirDanio(danioRecibido) {
     vidasDeQuirrel -= danioRecibido
@@ -103,7 +110,7 @@ object quirrel {
 
   method bloquear() {
     estado = cubriendo
-    game.schedule(2000, { => estado = normal })
+    game.schedule(500, { => estado = normal })
   }
 
 //------------ATACAR AL ENEMIGO EN DIRECCION------------
@@ -113,10 +120,7 @@ object quirrel {
     direccionActual = direccion
   }
 
-  method enemigoEliminado(puntajeASumar){
-    game.say(self, "fuiste eliminado")
-    self.sumarPuntaje(puntajeASumar)
-  }
+
 
 }
 
