@@ -11,8 +11,13 @@ program juegoGame {
 
     game.boardGround("fondo.jpg")
     game.addVisual(quirrel)    
-	//game.addVisual(quirrel)
+	game.addVisual(enemigo)
+	// game.onTickDo(1000, "seMueveEenemigo",{ => enemigo.moverse()})
 	
+	keyboard.right().onPressDo{quirrel.atacarDireccion(dirRight)}
+	keyboard.left().onPressDo{quirrel.atacarDireccion(dirLeft)}
+	keyboard.up().onPressDo{quirrel.atacarDireccion(dirUp)}
+	keyboard.down().onPressDo{quirrel.atacarDireccion(dirDown)}
 
 	game.start()
 }

@@ -21,8 +21,10 @@ class Enemigo {
 }
 // falta definir las imagenes del enemigo
 const enemigoDerecho = new Enemigo(
-    imagen = "enemigoDerecha.png",
+    imagen = "quirrel-muerto.png",
     position = game.at(0, 5)   
+    
+    
 )
 const enemigoIzquierdo = new Enemigo(
     imagen = "enemigoIzquierda.png",
