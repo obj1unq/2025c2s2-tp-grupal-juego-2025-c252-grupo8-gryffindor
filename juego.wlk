@@ -27,7 +27,7 @@ object juego {
     game.onCollideDo(quirrel, {cosa => cosa.atacar(quirrel)})    
  // game.onTick(2000, "spawnear enemigo", { => enemigo.spawnear() }) // cada 2 segundos se spawnea un enemigo
   game.onTick(3000, "spawnear proyectil", { => proyectil.spawnear() }) // cada 3 segundos se spawnea un proyectil
-  game.onTick(2000, "mover proyectil", { => proyectil.moverse() }) // cada 0.5 segundos se mueve el proyectil
+  game.onTick(1000, "mover proyectil", { => proyectil.moverse() }) // cada 0.5 segundos se mueve el proyectil
 
 }
 }
@@ -70,7 +70,8 @@ var property direccionActual = dirRight // esta variable guarda la ultima direcc
   method bloquear() {
     self.modoCubriendo()
     image = direccionActual.image() 
-   game.schedule(3000, {self.modoNormal()})  // despues de segundo vuelve a modo normal 
+   game.schedule(3000, {self.modoNormal()})  // despues de segundo vuelve a modo normal   
+   image = direccionActual.image()
   }
   
   method atacarEnemigoEnDireccion(enemigo, direccion){// si el enemigo esta dentro del margen  de ataque de la direccion actual hacia la que mira quirrel se ejecuta este metodo
