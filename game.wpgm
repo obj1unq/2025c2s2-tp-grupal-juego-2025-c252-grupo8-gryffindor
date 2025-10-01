@@ -19,6 +19,6 @@ program juegoGame {
 	keyboard.left().onPressDo{quirrel.atacarDireccion(dirLeft)}
 	keyboard.up().onPressDo{quirrel.atacarDireccion(dirUp)}
 	keyboard.down().onPressDo{quirrel.atacarDireccion(dirDown)}
-
+    game.onCollideDo(quirrel, {quirrel => enemigo.atacar(quirrel)})
 	game.start()
 }

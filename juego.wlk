@@ -4,7 +4,7 @@ import enemigo.*
    var property imagen = "quirrel.png"
    var property position = game.center()
    var property rival = enemigo
-   var vidasDeQuirrel = 5
+   var vidasDeQuirrel = 1
    var puntitos = 0
    method image() {
     return imagen 
@@ -15,13 +15,11 @@ import enemigo.*
 
    method atacarDireccion(direccion) {
      imagen = direccion.image()
-    direccion.validarAtacarA(enemigo)
-    enemigo.eliminarEnemigo()
+    direccion.puedeAtacarA(enemigo)
+    direccion.enemigos().forEach({enemigo => enemigo.serAtacado()})
    }
 
-    method atacar(direccion) {
-      game.onTick(1000, "seguirSilvestre", { => quirrel.atacarDireccion(direccion) })
-    }
+  
    
    method sumarPuntaje(puntaje) {
      puntitos = puntitos+puntaje
@@ -37,11 +35,11 @@ import enemigo.*
       } 
     }
 
-    method recibirDanio() { // Se puede utilizar en una colision
-      vidasDeQuirrel -= 1
+    method recibirDanio(danioRecibido) { // Se puede utilizar en una colision
+      vidasDeQuirrel -= danioRecibido
       if (vidasDeQuirrel == 0){
         imagen = "quirrel-muerto.png" //
-        game.stop()
+        game.schedule(2000, {game.stop() })
       }
     }
 
@@ -55,7 +53,7 @@ import enemigo.*
  object dirUp {
    var property imagen = "quirrel-arriba.png"
    var property position = game.center()
-   const enemigos = #{enemigo}
+   const property enemigos = #{enemigo}
 
    method image() {
     return imagen 
@@ -68,8 +66,8 @@ import enemigo.*
         return  enemigo.position().y().between(self.position().y()+1, self.position().y()+2)
     }
 
-    method name() {
-      enemigos.filter{enemigo => enemigo.puedeAtacarA(enemigo)}
+    method filtrarEnemigos() {
+      return enemigos.filter{enemigo => self.puedeAtacarA(enemigo)}
     }
 
 
@@ -78,6 +76,7 @@ import enemigo.*
   object dirDown {
    var property imagen = "quirrel-abajo.png"
    var property position = game.center()
+   const property enemigos = #{enemigo}
 
    method image() {
     return imagen 
@@ -88,6 +87,10 @@ import enemigo.*
     method puedeAtacarA(enemigo){
         return  enemigo.position().y().between(self.position().y()-1, self.position().y()-2)
     }
+     method filtrarEnemigos() {
+      return enemigos.filter{enemigo => self.puedeAtacarA(enemigo)}
+    }
+
 
    }
  
@@ -95,6 +98,7 @@ import enemigo.*
   object dirLeft {
    var property imagen = "quirrel-izquierda.png"
    var property position = game.center()
+   const property enemigos = #{enemigo}
 
    method image() {
     return imagen 
@@ -106,12 +110,16 @@ import enemigo.*
     method puedeAtacarA(enemigo){
         return  enemigo.position().x().between(self.position().x()-1, self.position().x()-2)
     }
+  method filtrarEnemigos() {
+      return enemigos.filter{enemigo => self.puedeAtacarA(enemigo)}
+    }
 
  }
 
   object dirRight {
    var property imagen = "quirrel-derecha.png"
    var property position = game.center()
+   const property enemigos = #{enemigo}
 
    method image() {
     return imagen 
@@ -123,7 +131,9 @@ import enemigo.*
     method puedeAtacarA(enemigo){
         return  enemigo.position().x().between(self.position().x()+1, self.position().x()+2)
     }
-
+method filtrarEnemigos() {
+      return enemigos.filter{enemigo => self.puedeAtacarA(enemigo)}
+    }
  }
  
 
@@ -131,34 +141,68 @@ import enemigo.*
 
  object enemigo {
    var property imagen = "quirrel-muerto.png"
-   var property position = game.at(0,6)
+   var property position =game.origin()
+   var property posiciones = #{dirUpEnemy, dirDownEnemy, dirLeftEnemy, dirRightEnemy}
+   var property elegido = posiciones.anyOne()
    method image() {
     return imagen 
    }
    method position(){
     return position
    }
-   method eliminarEnemigo(){ 
+   method serAtacado(){ 
    
         game.removeVisual(self) 
    }
    method moverse(){
      //imagen = "quirell-muerto.png"
-    position = position.right(1)
+    position = elegido.dir(1)
     //return position
    }
+
+   method atacar(protagonista){
+    protagonista.recibirDanio(1)
+
+   }
+
+
  }
 
 
 
  object dirUpEnemy {
    var property imagen = "img.png"
-   var property position = game.center()
-   method image() {
-    return imagen 
-   }
-   method position(){
-    return position
-   }
+   var property position = game.at(5, 10)   
+   method image() {return imagen }
+   method position(){return position}
+
+   method dir(pasos){
+     return position.up(pasos)
+  }
  }
+
+object dirDownEnemy {
+    var property position = game.at(0, 5)   
+    var property imagen = "quirrel-muerto.png"
+    method image() { return imagen }
+    method position() { return position }
+      
+}
+  object dirLeftEnemy {
+      var property position = game.at(10, 5)   
+      var property imagen = "img.png"
+      method image() { return imagen }
+      method position() { return position }
+        
+  }
+  object dirRightEnemy {
+      var property position = game.at(0, 5)   
+      var property imagen = "img.png"
+      method image() { return imagen }
+      method position() { return position }
+        
+  }
+
+
+
 
