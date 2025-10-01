@@ -9,9 +9,10 @@ program juegoGame {
 	game.width(13) 			//valor por defecto 5
 	game.cellSize(50) 		//valor por defecto 50
 
-    game.boardGround("gondoNivel1.jpg")
-
+    game.boardGround("fondo.jpg")
     game.addVisual(quirrel)    
-	game.addVisual(quirrel)
+	//game.addVisual(quirrel)
 	
+
+	game.start()
 }

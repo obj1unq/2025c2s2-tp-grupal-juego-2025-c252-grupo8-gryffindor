@@ -1,6 +1,7 @@
 import wollok.game.*
+import enimigo.*
  object quirrel {
-   var property imagen = "img.png"
+   var property imagen = "querri.png"
    var property position = game.center()
    var property enemigoe = enemigo
    method image() {
@@ -19,15 +20,47 @@ import wollok.game.*
     method puedeAtacarA(enemigo, direccion){
         return  enemigo.position().y().between(self.position().y(), self.position().y()+2)
     }
-
-// atacar
-
-
  }
 
  object dirUp {
-   var property imagen = "img.png"
-   var property position = quirrel.position().y()+1
+   var property imagen = "querri-arriba.png"
+   var property position = game.center()
+
+   method image() {
+    return imagen 
+   }
+   method position(){
+    return position
+   }
+ }
+
+  object dirDown {
+   var property imagen = "querri-abajo.png"
+   var property position = game.center()
+
+   method image() {
+    return imagen 
+   }
+   method position(){
+    return position
+   }
+ }
+
+  object dirLeft {
+   var property imagen = "querri-izquierda.png"
+   var property position = game.center()
+
+   method image() {
+    return imagen 
+   }
+   method position(){
+    return position
+   }
+ }
+
+  object dirRight {
+   var property imagen = "querri-derecha.png"
+   var property position = game.center()
 
    method image() {
     return imagen 
@@ -36,9 +69,6 @@ import wollok.game.*
     return position
    }
 
-   method variante(){
-    return Y()
-   }
    
  }
 
