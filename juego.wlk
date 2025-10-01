@@ -1,9 +1,10 @@
 import wollok.game.*
-import enimigo.*
+import enemigo.*
  object quirrel {
-   var property imagen = "querri.png"
+   var property imagen = "quirrel.png"
    var property position = game.center()
-   var property enemigoe = enemigo
+   var property rival = enemigo
+   var vidasDeQuirrel = 5
    method image() {
     return imagen 
    }
@@ -12,18 +13,39 @@ import enimigo.*
    }
 
    method atacarDireccion(direccion) {
-     if (position == enemigoe.position()){
-        imagen = direccion.imgaen()
-        enemigoe.eliminarEnemigo(direccion)
+     if (position == rival.position()){
+        imagen = direccion.imagen()
+        rival.eliminarEnemigo(direccion)
      }
    }
-    method puedeAtacarA(enemigo, direccion){
+    method puedeAtacarA(enemigo){
         return  enemigo.position().y().between(self.position().y(), self.position().y()+2)
     }
+
+///------------------ELIMINAR ENEMIGO PRUEBA-------------------///
+    method eliminarEnemigo(direccion) {
+      if (position == direccion.position()){// Esta condicion no funciona, ya que el enemigo no debe estar en la misma posicion que quirrel para ser eliminado.
+          imagen = "transparente.png"
+      } 
+    }
+
+    method recibirDanio() { // Se puede utilizar en una colision
+      vidasDeQuirrel -= 1
+      if (vidasDeQuirrel == 0){
+        imagen = "quirrel-muerto.png" //
+        game.stop()
+      }
+    }
+
  }
 
+
+
+
+
+///------------------DIRECCIONES Quirrel-------------------///
  object dirUp {
-   var property imagen = "querri-arriba.png"
+   var property imagen = "quirrel-arriba.png"
    var property position = game.center()
 
    method image() {
@@ -35,7 +57,7 @@ import enimigo.*
  }
 
   object dirDown {
-   var property imagen = "querri-abajo.png"
+   var property imagen = "quirrel-abajo.png"
    var property position = game.center()
 
    method image() {
@@ -47,7 +69,7 @@ import enimigo.*
  }
 
   object dirLeft {
-   var property imagen = "querri-izquierda.png"
+   var property imagen = "quirrel-izquierda.png"
    var property position = game.center()
 
    method image() {
@@ -59,7 +81,7 @@ import enimigo.*
  }
 
   object dirRight {
-   var property imagen = "querri-derecha.png"
+   var property imagen = "quirrel-derecha.png"
    var property position = game.center()
 
    method image() {
@@ -72,11 +94,11 @@ import enimigo.*
    
  }
 
-
+///------------------DIRECCIONES Enemigo-------------------///
 
  object enemigo {
    var property imagen = "img.png"
-   var property position = game.center()
+   var property position = game.at(3, 5)
    method image() {
     return imagen 
    }
