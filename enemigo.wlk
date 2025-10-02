@@ -8,7 +8,7 @@ object dirUpEnemy {
   var property image = "quirrel-muerto.png"
   var property position = game.at(6, 12)   
   const protagonista = quirrel
-  const facing = dirUp
+  const facing = arriba
 
   method spawn() {
     return position
@@ -29,11 +29,10 @@ object dirDownEnemy {
   var property position = game.at(6, 0)   
   var property image = "quirrel-muerto.png"
   const protagonista = quirrel
-  const facing = dirDown
+  const facing = abajo
  
   method puedeBloquearse() {
-    return protagonista.direccionActual() == facing and protagonista.modo() == "cubriendo"
-  }
+    return protagonista.direccionActual() == facing and protagonista.modo().activo() // proseginista.cubriendosede(self)
 
   method dir(pasos) {
     return position.up(pasos)
@@ -49,13 +48,13 @@ object dirDownEnemy {
     const diffY = target.y() - posActual.y()
     return if (diffY < 0) posActual.down(1) else posActual // Mueve hacia abajo si Quirrel está más abajo
   }
-}
+}}
 
 object dirLeftEnemy {
   var property position = game.at(0, 6)   
   var property image = "quirrel-muerto.png"
   const protagonista = quirrel
-  const facing = dirLeft
+  const facing = izquierda
   method moverse(aMover) {
     return aMover.right(1)
   }   
@@ -75,7 +74,7 @@ object dirRightEnemy {
   var property position = game.at(12, 6)   
   var property image = "quirrel-muerto.png"
   const protagonista = quirrel
-  const facing = dirRight
+  const facing = derecha
   method puedeBloquearse() {
     return protagonista.direccionActual() == facing and protagonista.modo() == "cubriendo"
   }

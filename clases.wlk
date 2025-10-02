@@ -19,9 +19,7 @@ class Enemigo {
   }
 
   method moverse() {
-    // Pasar la posición actual del enemigo a la dirección para calcular el movimiento
-    position = elegido.calcularMovimientoHacia(position, quirrel.position())
-    game.say(self, "Moviendo enemigo a " + position.toString()) // Depuración
+    position = elegido.moverse(position)
   }
 
   method spawnear() {

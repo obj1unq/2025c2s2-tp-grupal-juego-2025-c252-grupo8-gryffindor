@@ -2,8 +2,95 @@ import wollok.game.*
 import enemigo.*
 import clases.*
 
+
+object juego {
+  method cinematicaInicio() {
+    game.boardGround("fondo.jpg")
+    game.addVisual(quirrel)
+    game.say(quirrel, "¡Hola! Soy Quirrel, el valiente aventurero.")
+    game.schedule(3000, { game.say(quirrel, "Debo enfrentarme a los enemigos que se aproximan.") })
+    game.schedule(6000, { game.say(quirrel, "Usa las flechas para moverme x para cubrirme, y c para atacar.") })
+    game.schedule(9000, { game.say(quirrel, "¡Buena suerte!") })
+    game.schedule(12000, { self.iniciar() })
+  }
+
+  method iniciar() {
+    keyboard.right().onPressDo{ quirrel.mirarHaciaDireccion(derecha) }
+    keyboard.left().onPressDo{ quirrel.mirarHaciaDireccion(izquierda) }
+    keyboard.up().onPressDo{ quirrel.mirarHaciaDireccion(arriba) }
+    keyboard.down().onPressDo{ quirrel.mirarHaciaDireccion(abajo) }
+    keyboard.c().onPressDo{ quirrel.atacarAEnemigo() }
+    keyboard.x().onPressDo{ quirrel.bloquear() }
+    game.boardGround("fondo2.jpg")
+    game.onCollideDo(quirrel, { cosa => cosa.atacar(quirrel) })    
+    game.onTick(2000, "spawnear enemigo", { const nuevoEnemigo = new Enemigo(); nuevoEnemigo.spawnear() })
+    game.onTick(3000, "spawnear proyectil", { const nuevoProyectil = new Proyectil(); nuevoProyectil.spawnear() })
+    
+    game.onTick(1000, "mover proyectil", { game.allVisuals().forEach{ visual => if (visual.className() == "Proyectil") visual.moverse() } })
+    game.onTick(1000, "mover enemigo", { game.allVisuals().forEach{ visual => if (visual.className() == "Enemigo") visual.moverse() } })
+  }
+}
+
+object quirrel {
+  var property direccionActual = derecha
+  var property position = game.center()
+  var vidasDeQuirrel = 1
+  var puntitos = 0
+  var property modo = "normal"
+  
+  method image() {
+return "quirrel-" + modo + "-" + direccionActual + ".jpg"
+   }
+  method modoAtacando() { modo = "atacando" }
+  method modoCubriendo() { modo = "cubriendo" }
+  method modoNormal() { modo = "normal" }
+  method position() { return position }
+  method sumarPuntaje(puntaje) { puntitos += puntaje }
+
+  method recibirDanio(danioRecibido) {
+    vidasDeQuirrel -= danioRecibido
+    if (vidasDeQuirrel <= 0) {
+      game.say(self, "Me quede sin vidas")
+      game.schedule(2000, { game.stop() })
+    }
+  }
+
+  method mirarHaciaDireccion(direccion) {
+    direccionActual = direccion
+   
+  }
+
+  method atacarAEnemigo() {
+    self.modoAtacando()
+    const enemigosCercanos = game.allVisuals().filter{ visual => visual.className() == "Enemigo" && direccionActual.puedeAtacarA(visual) }
+    if (enemigosCercanos.isEmpty()) {
+      game.say(self, "No hay enemigos cercanos en esa dirección")
+    } else {
+      enemigosCercanos.forEach{ enemigo => direccionActual.atacar(enemigo) }
+    }
+  }
+
+  method bloquear() {
+    self.modoCubriendo()
+    game.schedule(2000, { self.modoNormal()})
+  }
+  
+  method atacarEnemigoEnDireccion(enemigo, direccion) {
+    if (game.hasVisual(enemigo) && modo == "atacando") {
+      position = direccion.dir()
+      enemigo.serAtacado()
+      game.say(self, "fuiste eliminado")
+      self.sumarPuntaje(100)
+      game.schedule(500, { position = game.center() })
+    }
+  }
+}
+
+
+
+
 //------------------DIRECCIONES Quirrel-------------------///
-object dirUp {
+object arriba {
   var property imagen = "quirrel-arriba.png"
   var property position = game.center()
   var property personaje = quirrel
@@ -32,7 +119,7 @@ object dirUp {
   }
 }
 
-object dirDown {
+object abajo {
   var property imagen = "quirrel-abajo.png"
   var property position = game.center()
   var property personaje = quirrel
@@ -61,7 +148,7 @@ object dirDown {
   }
 }
 
-object dirLeft {
+object izquierda {
   var property image = "quirrel-izquierda.png"
   var property position = game.center()
   var property personaje = quirrel
@@ -90,7 +177,7 @@ object dirLeft {
   }
 }
 
-object dirRight {
+object derecha {
   var property image = "quirrel.png"
   var property position = game.center()
   var property personaje = quirrel
@@ -119,90 +206,15 @@ object dirRight {
   }
 }
 
-object juego {
-  method cinematicaInicio() {
-    game.boardGround("fondo.jpg")
-    game.addVisual(quirrel)
-    game.say(quirrel, "¡Hola! Soy Quirrel, el valiente aventurero.")
-    game.schedule(3000, { game.say(quirrel, "Debo enfrentarme a los enemigos que se aproximan.") })
-    game.schedule(6000, { game.say(quirrel, "Usa las flechas para moverme x para cubrirme, y c para atacar.") })
-    game.schedule(9000, { game.say(quirrel, "¡Buena suerte!") })
-    game.schedule(12000, { self.iniciar() })
-  }
-
-  method iniciar() {
-    keyboard.right().onPressDo{ quirrel.mirarHaciaDireccion(dirRight) }
-    keyboard.left().onPressDo{ quirrel.mirarHaciaDireccion(dirLeft) }
-    keyboard.up().onPressDo{ quirrel.mirarHaciaDireccion(dirUp) }
-    keyboard.down().onPressDo{ quirrel.mirarHaciaDireccion(dirDown) }
-    keyboard.c().onPressDo{ quirrel.atacarAEnemigo() }
-    keyboard.x().onPressDo{ quirrel.bloquear() }
-    game.boardGround("fondo2.jpg")
-    game.onCollideDo(quirrel, { cosa => cosa.atacar(quirrel) })    
-    game.onTick(2000, "spawnear enemigo", { const nuevoEnemigo = new Enemigo(); nuevoEnemigo.spawnear() })
-    game.onTick(3000, "spawnear proyectil", { const nuevoProyectil = new Proyectil(); nuevoProyectil.spawnear() })
-    
-    game.onTick(1000, "mover proyectil", { game.allVisuals().forEach{ visual => if (visual.className() == "Proyectil") visual.moverse() } })
-    game.onTick(1000, "mover enemigo", { game.allVisuals().forEach{ visual => if (visual.className() == "Enemigo") visual.moverse() } })
-  }
-}
-
-object quirrel {
-  var property direccionActual = dirRight 
-  var property image = "quirrel.png"
-  var property position = game.center()
-  var vidasDeQuirrel = 1
-  var puntitos = 0
-  var property modo = "normal"
-  
-  method modoAtacando() { modo = "atacando" }
-  method modoCubriendo() { modo = "cubriendo" }
-  method modoNormal() { modo = "normal" }
-  method position() { return position }
-  method sumarPuntaje(puntaje) { puntitos += puntaje }
-
-  method recibirDanio(danioRecibido) {
-    vidasDeQuirrel -= danioRecibido
-    if (vidasDeQuirrel <= 0) {
-      game.say(self, "Me quede sin vidas")
-      game.schedule(2000, { game.stop() })
-    }
-  }
-
-  method mirarHaciaDireccion(direccion) {
-    direccionActual = direccion
-    image = direccion.image()
-  }
-
-  method atacarAEnemigo() {
-    self.modoAtacando()
-    const enemigosCercanos = game.allVisuals().filter{ visual => visual.className() == "Enemigo" && direccionActual.puedeAtacarA(visual) }
-    if (enemigosCercanos.isEmpty()) {
-      game.say(self, "No hay enemigos cercanos en esa dirección")
-    } else {
-      enemigosCercanos.forEach{ enemigo => direccionActual.atacar(enemigo) }
-    }
-  }
-
-  method bloquear() {
-    self.modoCubriendo()
-    image   game.onTick(1000, "mover proyectil", { game.allVisuals().forEach{ visual => if (visual.className() == "Proyectil") visual.moverse() } })
-    game.onTick(1000, "mover enemigo", { game.allVisuals().forEach{ visual => if (visual.className() == "Enemigo") visual.moverse() } })= direccionActual.image() 
-    game.schedule(3000, { self.modoNormal(); image = direccionActual.image() })
-  }
-  
-  method atacarEnemigoEnDireccion(enemigo, direccion) {
-    if (game.hasVisual(enemigo) && modo == "atacando") {
-      position = direccion.dir()
-      enemigo.serAtacado()
-      game.say(self, "fuiste eliminado")
-      self.sumarPuntaje(100)
-      game.schedule(500, { position = game.center() })
-    }
-  }
-}
 
 
+// modos
+
+object normal {}
+
+object atacando{}
+
+object reposo{}
 
 
 
