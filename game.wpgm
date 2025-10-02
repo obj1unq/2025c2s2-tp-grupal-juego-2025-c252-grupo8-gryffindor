@@ -9,7 +9,7 @@ import niveles.*
 
 
 program juegoGame {
-  game.title("Quirrel")   
+  game.title("Quirrel")  
   game.height(13)         
   game.width(13)          
   game.cellSize(50)       //valor por defecto 50

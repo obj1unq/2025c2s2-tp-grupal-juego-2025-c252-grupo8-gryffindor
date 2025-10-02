@@ -16,10 +16,11 @@ class Nivel {
   var property completado = false
   const marcadorDePuntos = marcadorPuntos
   const personaje = quirrel
-  const fondo
+ // const fondo
   method puntajeRequerido()
-  // method fondo()
+  method fondo()
  
+
 
   //-------------------------------------------------------------------------
 
@@ -43,7 +44,7 @@ class Nivel {
 
   method cinematicaInicio() {
     game.clear()
-    game.boardGround(fondo)
+    game.boardGround(self.fondo())
     game.addVisual(personaje)
     // game.say(quirrel, "¡Hola! Soy Quirrel, el valiente aventurero.")
     // game.schedule(3000, { game.say(quirrel, "Debo enfrentarme a los enemigos que se aproximan.") })
@@ -86,6 +87,7 @@ class Nivel {
   method sumarPuntos(punto) {
     puntajeActual += punto
     self.verificarSiCompletoLospuntos()
+    juego.verificarProgreso()
   }
 
   method verificarSiCompletoLospuntos(){
@@ -102,23 +104,23 @@ class Nivel {
 
 
 // no logro que la imagen de fondo cambie de un nivel a otro, intente de las dos maneras que estan, pero solo se queda con la primera.
-object nivel1 inherits Nivel (fondo = "fondo.jpg"){//
+object nivel1 inherits Nivel {//(fondo = "fondo.jpg")
 
-  // override method fondo(){
-  //   return "fondo.jpg"
-  // }
+  override method fondo(){
+    return "fondo.jpg"
+   }
     override method puntajeRequerido(){
-        return 500
+        return 300
     }
 }
 
-object nivel2 inherits Nivel (fondo = "loco.jpg"){//
+object nivel2 inherits Nivel {//(fondo = "fondo2.jpg")
 
-  //   override method fondo(){
-  //   return "loco.jpg"
-  // }
+  override method fondo(){
+   return "fondo2.jpg"
+  }
     override method puntajeRequerido(){
-        return 1000
+        return 0
     }
 }
 
@@ -129,9 +131,7 @@ object juego {
 
 
   method iniciarNivelActual() {
-    niveles.get(nivelActual).cinematicaInicio()
-    game.onTick(1000, "verificar progreso", { self.verificarProgreso() })
-  }
+    niveles.get(nivelActual).cinematicaInicio() }
   method verificarProgreso() {
     if (self.juegoTermino()) {
       game.say(self, "¡Juego completado!")
@@ -151,14 +151,11 @@ object juego {
   }
 
   method avanzarNivel() {
-    nivelActual = nivelActual + 1
-    if (nivelActual < niveles.size()) {
+    nivelActual = nivelActual + 1 game.onTick(1000, "verificar progreso", { self.verificarProgreso() })
       self.iniciarNivelActual()
-    }
-  }
  
 }
-
+}
 
 
 object marcadorPuntos {

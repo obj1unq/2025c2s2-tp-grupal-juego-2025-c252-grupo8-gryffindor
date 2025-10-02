@@ -15,6 +15,7 @@ object quirrel {
   var property direccionActual = derecha
   var property estado = normal  
   var property position = game.center()
+  
 
 
     
@@ -39,17 +40,28 @@ object quirrel {
   }
 
   method atacarAEnemigos(nivel) {
-    self.validarSiHayAmigosCercanos(nivel)
-    self.enemigosCercanos(nivel).forEach{ enemigo => self.atacarEnemigo(enemigo, self.nivelActual(nivel)) }
-    game.schedule(500, { => estado = normal })
+     estado = atacando
+    self.moverseAlAtacar()
+    estado.atacarAEnemigos(nivel, direccionActual)
+    game.schedule(500, {estado = normal })
+    
   }
+    /*self.validarSiHayAmigosCercanos(nivel)
+    self.enemigosCercanos(nivel).forEach{ enemigo => self.atacarEnemigo(enemigo, self.nivelActual(nivel)) }
+    game.schedule(500, { => estado = normal })*/
+  
+ method moverseAlAtacar(){
+  if (position == game.center())
+    position = direccionActual.moverse(position)
+    game.schedule(500, { position = game.center()})
+ }
 
-  method atacarEnemigo(enemigo, nivel){
+ /* method atacarEnemigo(enemigo, nivel){
     estado = atacando
     position = direccionActual.moverse(position)
     enemigo.serAtacado(nivel) 
     game.schedule(500, { position = game.center() }) 
-  }
+  }*/
 
 
 
@@ -75,7 +87,7 @@ object quirrel {
 
   method bloquear() {
     estado = cubriendo
-    game.schedule(500, { => estado = normal })
+    game.schedule(1000, { => estado = normal })
   }
 
   method mirarHaciaDireccion(direccion) {

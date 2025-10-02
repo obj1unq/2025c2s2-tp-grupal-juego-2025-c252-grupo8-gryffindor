@@ -13,8 +13,13 @@ import direccionesEnemigos.*
 describe "Imagenes"{
 
 test "imagenInicial" {
-    assert.equals( quirrel.image(), "quirrel-normal-derecha")
+    assert.equals( quirrel.image(), "quirrel-normal-derecha.png")
   }
+}
+test "fondo de nivel" {
+  game.start()
+  juego.nivelActual(1)
+  assert.equals(game, "fondo2.jpg" )
   
 }
 
