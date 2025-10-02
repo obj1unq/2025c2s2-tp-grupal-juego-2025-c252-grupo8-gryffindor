@@ -25,7 +25,7 @@ class Proyectil {
   }
   
   method moverHaciaQuirrel(){
-    game.onTick(1000, "mover proyectil", {  self.moverse() })
+    game.onTick(500, "mover proyectil", {  self.moverse() })
   }
 
   method serBloqueado(nivel) {

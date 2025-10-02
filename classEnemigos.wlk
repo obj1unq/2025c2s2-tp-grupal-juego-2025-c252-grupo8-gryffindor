@@ -11,7 +11,7 @@ class Enemigo {
   const posiciones = #{dirUpEnemy, dirDownEnemy, dirLeftEnemy, dirRightEnemy}
   var property elegido = posiciones.anyOne()
   var property position = elegido.position()
-  method lentitud(){return 2000 }
+  method lentitud(){return 1000 }
 
   method puntos() { 
     return 100 
