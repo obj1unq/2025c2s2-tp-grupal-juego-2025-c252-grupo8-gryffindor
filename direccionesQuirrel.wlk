@@ -18,8 +18,8 @@ object dirUp {
     return "quirrel-"+estado+"-arriba.png"
   }
 
-  method moverse() {
-    position = position.up(1)
+  method moverse(aMover) {
+    return aMover.up(1)
   }
 
   method puedeAtacarA(enemigo) {
@@ -27,14 +27,7 @@ object dirUp {
   }
 
 
-  method atacar(enemigo){
-    if(game.hasVisual(enemigo)){
-      self.moverse()
-      enemigo.serAtacado()
-      personaje.enemigoEliminado()
-      game.schedule(500, { position = game.center() }) 
-    }
-  }
+  
 }
 
 object dirDown {
@@ -49,24 +42,17 @@ object dirDown {
     return "quirrel-"+estado+"-abajo.png"
   }
 
-  method moverse() {
-    position = position.down(1)
+ method moverse(aMover) {
+    return aMover.down(1)
   }
 
   method puedeAtacarA(enemigo) {
     return enemigo.position().y().between(self.position().y() - 2, self.position().y() - 1)
   }
 
-  method atacar(enemigo){
-    if(game.hasVisual(enemigo)){
-      self.moverse()
-      enemigo.serAtacado()
-      personaje.enemigoEliminado()
-      game.schedule(500, { position = game.center() }) 
-    }
   
   }
-}
+
 
 object dirLeft {
   var property position = game.center()
@@ -81,22 +67,15 @@ object dirLeft {
     return "quirrel-"+estado+"-izquierda.png"
   }
 
-  method moverse() {
-    position = position.left(1)
+method moverse(aMover) {
+    return aMover.left(1)
   }
 
   method puedeAtacarA(enemigo) {
     return enemigo.position().x().between(self.position().x() - 2, self.position().x() - 1)
   }
 
-  method atacar(enemigo){
-    if(game.hasVisual(enemigo)){
-      self.moverse()
-      enemigo.serAtacado()
-      personaje.enemigoEliminado()
-      game.schedule(500, { position = game.center() }) 
-    }
-  }
+
 }
 
 
@@ -120,14 +99,7 @@ object dirRight {
     return enemigo.position().x().between(self.position().x() + 1, self.position().x() + 2)
   }
 
-  method atacar(enemigo){
-    if(game.hasVisual(enemigo)){
-      self.moverse()
-      enemigo.serAtacado()
-      personaje.enemigoEliminado()
-      game.schedule(500, { position = game.center() }) 
-      }
-    }
+
 }
 
 

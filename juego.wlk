@@ -40,7 +40,7 @@ object quirrel {
   var property direccionActual = dirUp
   var property estado = normal  
   var property mapa = primerNivel
-
+  var property position = game.center()
 
   method sumarPuntaje(puntaje) { 
     puntitos += puntaje 
@@ -50,9 +50,7 @@ object quirrel {
     return direccionActual.image()
   }
 
-  method position(){
-    return direccionActual.position()
-  }
+  
 
 
 
@@ -60,7 +58,7 @@ object quirrel {
   method atacarAEnemigo() {
    self.validarSiHayAmigosCercanos()
     estado = atacando
-    self.enemigosCercanos().forEach{ enemigo => direccionActual.atacar(enemigo) }
+    self.enemigosCercanos().forEach{ enemigo => self.atacar(enemigo) }
     game.schedule(2000, { => estado = normal })
   }
 
@@ -74,7 +72,14 @@ object quirrel {
     return mapa.enemigos().filter{ enemigo =>  direccionActual.puedeAtacarA(enemigo) }//
   }
 
-
+ method atacar(enemigo){
+    if(game.hasVisual(enemigo)){
+      direccionActual.moverse(Position)
+      enemigo.serAtacado()
+      self.enemigoEliminado(enemigo.puntos())
+      game.schedule(500, { position = game.center() }) 
+    }
+  }
 
   method puedeRecibirDanio(){ // indica si el estado actual de quirrel puede recibir algun daño
     return estado.puedeRecibirDanio()
@@ -108,9 +113,9 @@ object quirrel {
     direccionActual = direccion
   }
 
-  method enemigoEliminado(){
+  method enemigoEliminado(puntajeASumar){
     game.say(self, "fuiste eliminado")
-    self.sumarPuntaje(100)
+    self.sumarPuntaje(puntajeASumar)
   }
 
 }

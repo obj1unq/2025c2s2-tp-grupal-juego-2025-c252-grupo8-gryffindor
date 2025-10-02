@@ -12,6 +12,10 @@ class Enemigo {
   method image(){return "quirrel-muerto.png"}
   var property position = elegido.position()
   var mapa = primerNivel
+
+  method puntos() { return 100 }
+    
+  
   method serAtacado() { 
     //al ser atacado, el enemigo desaparece
     game.removeVisual(self) 
@@ -40,7 +44,7 @@ class Enemigo {
     self.moverHaciaQuirrel()
     }   
   }
-}
+  }
 
 class Proyectil {
   var mapa = primerNivel
@@ -96,4 +100,5 @@ override method atacar(protagonista) {
       protagonista.recibirDanio(2)
       game.removeVisual(self)
   }
+  
 }
