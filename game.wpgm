@@ -1,8 +1,36 @@
 import wollok.game.*
 import juego.*
+import enemigo.*
+
+
+program juegoGame {
+    game.title("Quirrel")   //Valor por defecto "Wollok Game"
+    game.height(13)         //valor por defecto 5
+    game.width(13)          //valor por defecto 5
+    game.cellSize(50)       //valor por defecto 50
+
+    game.boardGround("fondo.jpg")
+    game.addVisual(quirrel)    
+    game.addVisual(enemigo)
+
+
+    keyboard.right().onPressDo{quirrel.mirarHaciaDireccion(dirRight)}
+    keyboard.left().onPressDo{quirrel.mirarHaciaDireccion(dirLeft)}
+    keyboard.up().onPressDo{quirrel.mirarHaciaDireccion(dirUp)}
+    keyboard.down().onPressDo{quirrel.mirarHaciaDireccion(dirDown)}
+    keyboard.space().onPressDo{quirrel.atacarAEnemigo(enemigo)}
+
+
+    game.onTick(1000, "enemigo Mover", { => enemigo.moverse() })
+    game.onCollideDo(quirrel, {enemigo => enemigo.atacar(quirrel)})
+
+    game.start()
+}
 
 
 
+
+/*
 program juegoGame {
     game.title("Quirrel") 	//Valor por defecto "Wollok Game"
 	game.height(13) 		//valor por defecto 5
@@ -22,3 +50,7 @@ program juegoGame {
     game.onCollideDo(quirrel, {quirrel => enemigo.atacar(quirrel)})
 	game.start()
 }
+*/
+
+
+
