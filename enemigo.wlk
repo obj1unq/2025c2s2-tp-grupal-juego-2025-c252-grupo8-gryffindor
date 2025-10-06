@@ -2,13 +2,45 @@ import wollok.game.game
 import juego.*
 
 
+object proyectil {
+  var property image = "bala.png"
+  const posiciones = #{dirUpEnemy, dirDownEnemy, dirLeftEnemy, dirRightEnemy}
+  var property elegido = posiciones.anyOne()
+  var property position =  elegido.position()
+
+  method moverse(){
+    position = elegido.moverse(position)
+   }
+
+ method spawnear(){
+    if (!game.hasVisual(self)) {
+      elegido = posiciones.anyOne() // Elige una dirección aleatoria
+    position = elegido.spawn()
+    game.addVisual(self)
+
+    }
+ }
+method atacar(protagonista){
+if (elegido.puedeBloquearse()){
+  self.serBloqueado()}
+else{
+  protagonista.recibirDanio(2)
+}
+}
+method serBloqueado(){
+        game.removeVisual(self)
+     }
+
+
+     }
+
+
  object enemigo {
 
   const posiciones = #{dirUpEnemy, dirDownEnemy, dirLeftEnemy, dirRightEnemy}
   var property elegido = posiciones.anyOne()
   var property image = elegido.image()
-  var property position =  elegido.position()
-
+  var property position =  elegido.spawn()
   method serAtacado(){ 
     game.removeVisual(self) 
   }   
@@ -18,20 +50,34 @@ import juego.*
    }
 
   method moverse(){
-    elegido.moverse()
-    position = elegido.position()
+    position = elegido.moverse(position)
    }
+  
+  method spawnear(){
+    if (!game.hasVisual(self)) {
+      elegido = posiciones.anyOne() // Elige una dirección aleatoria
+    position = elegido.spawn()
+    game.addVisual(self)
 
+    }
+  }
  }
 ///--------------- DIRECCIONES ENEMIGO---------------------------
 
 object dirUpEnemy {
   var property image = "quirrel-muerto.png"
   var property position = game.at(6, 12)   
+ const protagonista = quirrel
+ const facing = dirUp
 
-  method moverse() {
-    position = position.down(1) 
+   method spawn() {
     return position
+  }
+  method moverse(aMover) {
+    return aMover.down(1)
+  }
+  method puedeBloquearse() {
+    return protagonista.direccionActual() == facing
   }
 }
 
@@ -39,35 +85,61 @@ object dirDownEnemy {
 
   var property position = game.at(6, 0)   
   var property image = "quirrel-muerto.png"
+  const protagonista = quirrel
+  const facing = dirDown
+ 
+   method puedeBloquearse() {
+    return protagonista.direccionActual() == facing
+  }
+
+
   method dir(pasos){
     return position.up(pasos)
   }
-
-  method moverse() {
-    position = position.up(1) 
+  method spawn() {
     return position
+  }
+
+  method moverse(aMover) {
+    
+    return aMover.up(1)
   }
 }
 
 object dirLeftEnemy {
   var property position = game.at(0, 6)   
   var property image = "quirrel-muerto.png"
-
-  method moverse() {
-    position = position.right(1)
-    return position
+const protagonista = quirrel
+const facing = dirLeft
+  method moverse(aMover) {
+    return aMover.right(1)
   }   
+    method spawn() {
+    return position
+  }
+  method puedeBloquearse() {
+    return protagonista.direccionActual() == facing
+  }
 }
 
 object dirRightEnemy {
   var property position = game.at(12, 6)   
   var property image = "quirrel-muerto.png"
+const protagonista = quirrel
+const facing = dirRight
+    method puedeBloquearse() {
+    return protagonista.direccionActual() == facing
+  }
 
-  method moverse() {
-    position = position.left(1)
+  method spawn() {
     return position
   }
+  method moverse(aMover) {
+    
+    return aMover.left(1)
+  }
 }
+
 
 
 
