@@ -1,15 +1,49 @@
 import wollok.game.*
 import enemigo.*
 
-object quirrel {
+object juego {
 
-  var property imagen = "quirrel.png"
+  method cinematicaInicio(){
+
+    game.boardGround("fondo.jpg")
+ 
+    game.addVisual(quirrel)
+    game.say(quirrel, "¡Hola! Soy Quirrel, el valiente aventurero.")
+    game.schedule(3000, { game.say(quirrel, "Debo enfrentarme a los enemigos que se aproximan.") })
+    game.schedule(6000, { game.say(quirrel, "Usa las flechas para moverme x para cubrirme, y c para atacar.") })
+    game.schedule(9000, { game.say(quirrel, "¡Buena suerte!") })
+    game.schedule(12000, { self.iniciar() }) // Inicia el juego después de la cinemática
+  }
+  method iniciar(){
+   
+    keyboard.right().onPressDo{quirrel.mirarHaciaDireccion(dirRight)}
+    keyboard.left().onPressDo{quirrel.mirarHaciaDireccion(dirLeft)}
+    keyboard.up().onPressDo{quirrel.mirarHaciaDireccion(dirUp)}
+    keyboard.down().onPressDo{quirrel.mirarHaciaDireccion(dirDown)}
+    keyboard.c().onPressDo{quirrel.atacarAEnemigo(enemigo)}
+    keyboard.x().onPressDo{quirrel.bloquear()}
+    game.boardGround("fondo2.jpg")
+    game.onTick(1000.randomUpTo(3000), "enemigo Mover", { => enemigo.moverse() })
+    game.onCollideDo(quirrel, {cosa => cosa.atacar(quirrel)})    
+  game.onTick(2000, "spawnear enemigo", { => enemigo.spawnear() }) // cada 2 segundos se spawnea un enemigo
+  game.onTick(3000, "spawnear proyectil", { => proyectil.spawnear() }) // cada 3 segundos se spawnea un proyectil
+  game.onTick(4000, "mover proyectil", { => proyectil.moverse() }) // cada 0.5 segundos se mueve el proyectil
+
+}
+}
+
+object quirrel {
+var property direccionActual = dirRight // esta variable guarda la ultima direccion hacia la que miraba  quirrel
+  var property image = direccionActual.image()
   var property position = game.center()
   var vidasDeQuirrel = 1
   var puntitos = 0
-  var  direccionActual = dirUp // esta variable guarda la ultima direccion hacia la que miraba  quirrel
+  var property modo = "normal" //puede ser normal, atacando,o cubriendo
+  
 
-  method image() { return imagen}
+ method modoAtacando(){modo = "atacando"}
+ method modoCubriendo(){modo = "cubriendo"}
+ method modoNormal(){modo = "normal"}
   method position() { return position}
   method sumarPuntaje(puntaje) {puntitos += puntaje}
 
@@ -25,25 +59,30 @@ object quirrel {
 
   method mirarHaciaDireccion(direccion) {
     direccionActual = direccion
-    imagen = direccion.image()
+    image = direccion.image()
   }
 
   method atacarAEnemigo(enemigo) {
-    if(game.hasVisual(enemigo)){                      //Le agregue esto para que solo ataque si la imagen visual esta en el tablero
+      self.modoAtacando()                 //Le agregue esto para que solo ataque si la imagen visual esta en el tablero
       direccionActual.atacar(enemigo)                 // delegue la accion de atacar a la direccion, ya que este evalua si el enemigo se encuentra dentro de su margen de ataque..
-    } 
+    
   }
-
+  method bloquear() {
+    self.modoCubriendo()
+    image = direccionActual.image() 
+   game.schedule(1000, {self.modoNormal()})  // despues de una deicma de segundo vuelve a modo normal 
+  }
+  
   method atacarEnemigoEnDireccion(enemigo, direccion){// si el enemigo esta dentro del margen  de ataque de la direccion actual hacia la que mira quirrel se ejecuta este metodo
-    if(game.hasVisual(enemigo)){  
+    if(game.hasVisual(enemigo) && modo == "atacando"){  // si el enemigo esta en el tablero y quirrel esta en modo atacando
     position = direccion.dir()                        // hace que quirrel se desplace una celda hacia la direccion actual para atacar al enemigo 
     enemigo.serAtacado()
-    game.say(self, "fuiste eliminado")                // no se ejecuta correctamente
+    game.say(self, "fuiste eliminado")                //se ejecuta correctamente
     self.sumarPuntaje(100)
     game.schedule(500, {position = game.center() })   // esto hace que quirrel vuelva a su posicion luego de eliminar al enemigo
     }
   }
-
+ 
 }
 
 
@@ -55,7 +94,17 @@ object quirrel {
    const property enemigos = #{enemigo}
    var property personaje = quirrel
 
-   method image() {return imagen }
+
+
+   method image() {return if (personaje.modo() == "cubriendo"){
+      "quirrel-cubriendo-arriba.png"
+   } 
+   else if (personaje.modo() == "atacando"){
+      "quirrel-atacando-arriba.png"
+   } else {
+      "quirrel-arriba.png"
+   }
+  }
    method position(){return position}
 
   method puedeAtacarA(enemigo){
@@ -84,7 +133,15 @@ object dirDown {
   var property position = game.center()
   var property personaje = quirrel
 
-  method image() {return imagen }
+   method image() {return if (personaje.modo() == "cubriendo"){
+      "quirrel-cubriendo-abajo.png"
+   } 
+   else if (personaje.modo() == "atacando"){
+      "quirrel-atacando-abajo.png"
+   } else {
+      "quirrel-abajo.png"
+   }
+  }
   method position(){return position}
 
   method puedeAtacarA(enemigo) {
@@ -106,11 +163,18 @@ object dirDown {
 
 
 object dirLeft {
-  var property imagen = "quirrel-izquierda.png"
+  var property image = "quirrel-izquierda.png"
   var property position = game.center()
   var property personaje = quirrel
 
-  method image() {return imagen }
+  method image() {return if (personaje.modo() == "cubriendo"){
+      "quirrel-cubriendo-izquierda.png"
+   } 
+   else if (personaje.modo() == "atacando"){
+      "quirrel-atacando-izquieda.png"
+   } else {
+      "quirrel-izquierda.png"
+   } }
   method position(){return position}
 
   method puedeAtacarA(enemigo){
@@ -133,11 +197,20 @@ object dirLeft {
 
 
 object dirRight {
-  var property imagen = "quirrel-derecha.png"
+  var property image = "quirrel.png"
   var property position = game.center()
   var property personaje = quirrel
 
-  method image() {return imagen }
+  method image() {return if (personaje.modo() == "cubriendo"){
+      "quirrel-cubriendo-derecha.png"
+   } 
+   else if (personaje.modo() == "atacando"){
+      "quirrel-atacando-derecha.png"
+   } else {
+      "quirrel-derecha.png"
+   }
+  }
+
   method position(){return position}
 
   method puedeAtacarA(enemigo){
@@ -156,6 +229,7 @@ object dirRight {
     }
   }
 }
+
 
 
 
