@@ -1,17 +1,15 @@
 import wollok.game.*
 import juego.*
 import enemigo.*
-
-
+import clases.*
 
 program juegoGame {
-    game.title("Quirrel")   //Valor por defecto "Wollok Game"
-    game.height(13)         //valor por defecto 5
-    game.width(13)          //valor por defecto 5
-    game.cellSize(50)       //valor por defecto 50
-	juego.cinematicaInicio()
-    game.start()
-  
+  game.title("Quirrel")   
+  game.height(13)         
+  game.width(13)          
+  game.cellSize(50)       //valor por defecto 50
+  juego.cinematicaInicio()
+  game.start()
 }
 
 

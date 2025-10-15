@@ -1,78 +1,16 @@
-import wollok.game.game
+import wollok.game.*
 import juego.*
+import clases.*
 
-
-object proyectil {
-  var property image = "bala.png"
-  const posiciones = #{dirUpEnemy, dirDownEnemy, dirLeftEnemy, dirRightEnemy}
-  var property elegido = posiciones.anyOne()
-  var property position =  elegido.position()
-
-  method moverse(){
-    position = elegido.moverse(position)
-   }
-
- method spawnear(){
-    if (!game.hasVisual(self)) {
-      elegido = posiciones.anyOne() // Elige una dirección aleatoria
-    position = elegido.spawn()
-    game.addVisual(self)
-
-    }
- }
-method atacar(protagonista){
-if (elegido.puedeBloquearse()){
-  self.serBloqueado()}
-else{
-  protagonista.recibirDanio(2)
-  game.removeVisual(self)
-}
-}
-method serBloqueado(){
-        game.removeVisual(self)
-     }
-
-
-     }
-
-
- object enemigo {
-
-  const posiciones = #{dirUpEnemy, dirDownEnemy, dirLeftEnemy, dirRightEnemy}
-  var property elegido = posiciones.anyOne()
-  var property image = elegido.image()
-  var property position =  elegido.spawn()
-  method serAtacado(){ 
-    game.removeVisual(self) 
-  }   
-
-  method atacar(protagonista){
-    protagonista.recibirDanio(1)
-    game.removeVisual(self)
-   }
-
-  method moverse(){
-    position = elegido.moverse(position)
-   }
-  
-  method spawnear(){
-    if (!game.hasVisual(self)) {
-      elegido = posiciones.anyOne() // Elige una dirección aleatoria
-    position = elegido.spawn()
-    game.addVisual(self)
-
-    }
-  }
- }
-///--------------- DIRECCIONES ENEMIGO---------------------------
+//--------------- DIRECCIONES DE LOS ENEMIGOSENEMIGO---------------------------
 
 object dirUpEnemy {
   var property image = "quirrel-muerto.png"
   var property position = game.at(6, 12)   
- const protagonista = quirrel
- const facing = dirUp
+  const protagonista = quirrel
+  const facing = dirUp
 
-   method spawn() {
+  method spawn() {
     return position
   }
   method moverse(aMover) {
@@ -81,21 +19,23 @@ object dirUpEnemy {
   method puedeBloquearse() {
     return protagonista.direccionActual() == facing and protagonista.modo() == "cubriendo"
   }
+  method calcularMovimientoHacia(posActual, target) {
+    const diffY = target.y() - posActual.y()
+    return if (diffY > 0) posActual.up(1) else posActual // Mueve hacia arriba si Quirrel está más arriba
+  }
 }
 
 object dirDownEnemy {
-
   var property position = game.at(6, 0)   
   var property image = "quirrel-muerto.png"
   const protagonista = quirrel
   const facing = dirDown
  
-   method puedeBloquearse() {
+  method puedeBloquearse() {
     return protagonista.direccionActual() == facing and protagonista.modo() == "cubriendo"
   }
 
-
-  method dir(pasos){
+  method dir(pasos) {
     return position.up(pasos)
   }
   method spawn() {
@@ -103,33 +43,40 @@ object dirDownEnemy {
   }
 
   method moverse(aMover) {
-    
     return aMover.up(1)
+  }
+  method calcularMovimientoHacia(posActual, target) {
+    const diffY = target.y() - posActual.y()
+    return if (diffY < 0) posActual.down(1) else posActual // Mueve hacia abajo si Quirrel está más abajo
   }
 }
 
 object dirLeftEnemy {
   var property position = game.at(0, 6)   
   var property image = "quirrel-muerto.png"
-const protagonista = quirrel
-const facing = dirLeft
+  const protagonista = quirrel
+  const facing = dirLeft
   method moverse(aMover) {
     return aMover.right(1)
   }   
-    method spawn() {
+  method spawn() {
     return position
   }
   method puedeBloquearse() {
     return protagonista.direccionActual() == facing and protagonista.modo() == "cubriendo"
+  }
+  method calcularMovimientoHacia(posActual, target) {
+    const diffX = target.x() - posActual.x()
+    return if (diffX < 0) posActual.left(1) else posActual // Mueve a la izquierda si Quirrel está a la izquierda
   }
 }
 
 object dirRightEnemy {
   var property position = game.at(12, 6)   
   var property image = "quirrel-muerto.png"
-const protagonista = quirrel
-const facing = dirRight
-    method puedeBloquearse() {
+  const protagonista = quirrel
+  const facing = dirRight
+  method puedeBloquearse() {
     return protagonista.direccionActual() == facing and protagonista.modo() == "cubriendo"
   }
 
@@ -137,8 +84,11 @@ const facing = dirRight
     return position
   }
   method moverse(aMover) {
-    
     return aMover.left(1)
+  }
+  method calcularMovimientoHacia(posActual, target) {
+    const diffX = target.x() - posActual.x()
+    return if (diffX > 0) posActual.right(1) else posActual // Mueve a la derecha si Quirrel está a la derecha
   }
 }
 
