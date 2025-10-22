@@ -8,7 +8,7 @@ object dirUpEnemy {
   var property image = "quirrel-muerto.png"
   var property position = game.at(6, 12)   
   const protagonista = quirrel
-  const facing = dirUp
+  const facing = arriba
 
   method spawn() {
     return position
@@ -29,7 +29,7 @@ object dirDownEnemy {
   var property position = game.at(6, 0)   
   var property image = "quirrel-muerto.png"
   const protagonista = quirrel
-  const facing = dirDown
+  const facing = abajo
  
   method puedeBloquearse() {
     return protagonista.direccionActual() == facing and protagonista.modo() == "cubriendo"
@@ -55,7 +55,7 @@ object dirLeftEnemy {
   var property position = game.at(0, 6)   
   var property image = "quirrel-muerto.png"
   const protagonista = quirrel
-  const facing = dirLeft
+  const facing = izquierda
   method moverse(aMover) {
     return aMover.right(1)
   }   
@@ -75,7 +75,7 @@ object dirRightEnemy {
   var property position = game.at(12, 6)   
   var property image = "quirrel-muerto.png"
   const protagonista = quirrel
-  const facing = dirRight
+  const facing = derecha
   method puedeBloquearse() {
     return protagonista.direccionActual() == facing and protagonista.modo() == "cubriendo"
   }
@@ -86,7 +86,10 @@ object dirRightEnemy {
   method moverse(aMover) {
     return aMover.left(1)
   }
-  method calcularMovimientoHacia(posActual, target) {
+}
+ 
+ 
+ /* method calcularMovimientoHacia(posActual, target) {
     const diffX = target.x() - posActual.x()
     return if (diffX > 0) posActual.right(1) else posActual // Mueve a la derecha si Quirrel está a la derecha
   }
@@ -95,7 +98,6 @@ object dirRightEnemy {
 
 
 
-/*
 ///------------------DIRECCIONES Enemigo-------------------///
 
  object enemigo {
