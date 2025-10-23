@@ -1,6 +1,8 @@
 import wollok.game.*
 import juego.*
-import enemigo.*
+import direccionesEnemigos.*
+import direccionesQuirrel.*
+import estadosQuirrel.*
 import clases.*
 
 program juegoGame {
