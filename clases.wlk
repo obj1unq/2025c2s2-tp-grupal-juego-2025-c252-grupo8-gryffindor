@@ -1,71 +1,76 @@
 import wollok.game.*
 import juego.*
-import enemigo.*
+import direccionesEnemigos.*
+
+
 import mapa.*
 
 class Enemigo {
-  var mapa = primerNivel
-  var elegido = mapa.spawns().anyOne()
-  var property image = elegido.image()
-  var property position = elegido.spawn()
 
+  const posiciones = #{dirUpEnemy, dirDownEnemy, dirLeftEnemy, dirRightEnemy}
+  var elegido = posiciones.anyOne()
+  var property image = elegido.image()
+ 
+
+  method position(){
+    return elegido.position()
+  }
   method serAtacado() { 
-    // la reaccion del enemigo al ser atacado
     game.removeVisual(self) 
   }
 
   method atacar(protagonista) {
-    //cada enemigo pude hacer un nivel de daño al protagonista
     protagonista.recibirDanio(1)
     game.removeVisual(self)
   }
 
   method moverse() {
-    // la dirección en la que spawne+o se encarga de moverlo en la dirección correcta
-    position = elegido.moverse(position)
-  
-    /* tal vez usar despues     position = elegido.calcularMovimientoHacia(position, quirrel.position())
-    game.say(self, "Moviendo enemigo a " + position.toString()) */ 
+     return elegido.moverse()
   }
   
+  method moverHaciaQuirrel(){
+    game.onTick(2000, "mover enemigo", { self.moverse() })
+  }
 
+  
   method spawnear() {
-    // el enemigo aparece en uno de los 4 posibles
     if (!game.hasVisual(self)) {
-      elegido = mapa.spawns().anyOne() // Elige una dirección aleatoria
-      position = elegido.spawn()
-      game.addVisual(self)
-      game.onTick(1000, "mover enemigo", { self.moverse() })
-    }
+    game.addVisual(self)
+    self.moverHaciaQuirrel()
+    }   
   }
 }
 
 class Proyectil {
   var property image = "bala.png"
-  var mapa = primerNivel
-  var elegido = mapa.spawns().anyOne()
-  var property position = elegido.position()
-
-  method moverse() {
-    position = elegido.moverse(position)
+  const posiciones = #{dirUpEnemy, dirDownEnemy, dirLeftEnemy, dirRightEnemy}
+  var elegido = posiciones.anyOne()
+ 
+  method position(){
+    return elegido.position()
   }
-
+  method moverse() {
+    return elegido.moverse()
+  }
+  method moverHaciaQuirrel(){
+    game.onTick(1000, "mover proyectil", {  self.moverse() })
+  }
   method spawnear() {
     if (!game.hasVisual(self)) {
-      elegido = mapa.spawns().anyOne() //direccion aleatoria
-      position = elegido.spawn()
-      game.addVisual(self)
-      game.onTick(1000, "mover proyectil", {  self.moverse() })
+    game.addVisual(self)
+    self.moverHaciaQuirrel()
     }
   }
 
+  method verificarSiPuedeAtacar(){
+    if(elegido.puedeBloquearse()){
+      self.error("Quirrel esta protegido")
+    }
+  }
   method atacar(protagonista) {
-    if (elegido.puedeBloquearse()) {
-      self.serBloqueado()
-    } else {
+      self.verificarSiPuedeAtacar()
       protagonista.recibirDanio(2)
       game.removeVisual(self)
-    }
   }
 
   method serBloqueado() {
