@@ -1,7 +1,7 @@
 import wollok.game.*
 import direccionesEnemigos.*
 import clases.*
-object primerNivel {
+/*object primerNivel {
 const  enemigos = []
 const proyectiles = []
 const property spawns = #{dirUpEnemy, dirDownEnemy, dirLeftEnemy, dirRightEnemy}
@@ -14,4 +14,4 @@ method añadirProyectil(proyectil){
     proyectiles.add(proyectil)
 }
 
-}
+}*/
