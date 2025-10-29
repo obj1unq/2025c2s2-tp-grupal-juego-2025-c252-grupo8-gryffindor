@@ -3,7 +3,8 @@ import clases.*
 import direccionesQuirrel.*
 import direccionesEnemigos.*
 import estadosQuirrel.*
-
+import BarraDeVida.*
+import mapa.*
 
 
 object juego {
@@ -19,14 +20,15 @@ object juego {
   }
 
   method iniciar() {
+    game.addVisual(mascaraDeVida)
     game.boardGround("fondo2.jpg")
     keyboard.right().onPressDo{ quirrel.mirarHaciaDireccion(dirRight) }
     keyboard.left().onPressDo{ quirrel.mirarHaciaDireccion(dirLeft) }
     keyboard.up().onPressDo{ quirrel.mirarHaciaDireccion(dirUp) }
     keyboard.down().onPressDo{ quirrel.mirarHaciaDireccion(dirDown) }
-    keyboard.a().onPressDo{ quirrel.atacarAEnemigo() }
+    keyboard.x().onPressDo{ quirrel.atacarAEnemigo() }
     keyboard.c().onPressDo{ quirrel.bloquear() }
-    game.onTick(4000, "spawnear enemigo", { const nuevoEnemigo = new Enemigo(); nuevoEnemigo.spawnear(); quirrel.agregarEnemigo(nuevoEnemigo) })
+    game.onTick(4000, "spawnear enemigo", { const nuevoEnemigo = new Enemigo(); nuevoEnemigo.spawnear(); })
     game.onTick(10000, "spawnear proyectil", { const nuevoProyectil = new Proyectil(); nuevoProyectil.spawnear() })
     game.onCollideDo(quirrel, { cosa => cosa.atacar(quirrel) }) 
   }
@@ -34,10 +36,10 @@ object juego {
 
 object quirrel {
   var puntitos = 0  
-  var vidasDeQuirrel = 4  
+  var property vidasDeQuirrel = 4  
   var property direccionActual = dirUp
   var property estado = normal  
-  const property listaDeEnemigos = [] 
+  var property mapa = primerNivel
 
 
   method sumarPuntaje(puntaje) { 
@@ -52,9 +54,6 @@ object quirrel {
     return direccionActual.position()
   }
 
-method agregarEnemigo(cualquiera){
-  listaDeEnemigos.add(cualquiera)
-}
 
 
 // ------------QUIRREL ATACANDO---------------
@@ -72,7 +71,7 @@ method agregarEnemigo(cualquiera){
   }
 
   method enemigosCercanos(){  // devuelve una lista con los enemigos cercanos que vienen en la direccion actual.
-    return listaDeEnemigos.filter{ enemigo =>  direccionActual.puedeAtacarA(enemigo) }//
+    return mapa.enemigos().filter{ enemigo =>  direccionActual.puedeAtacarA(enemigo) }//
   }
 
 

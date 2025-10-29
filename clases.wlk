@@ -9,23 +9,23 @@ class Enemigo {
 
   const posiciones = #{dirUpEnemy, dirDownEnemy, dirLeftEnemy, dirRightEnemy}
   var elegido = posiciones.anyOne()
-  var property image = elegido.image()
- 
-
-  method position(){
-    return elegido.position()
-  }
+  method image(){return "quirrel-muerto.png"}
+  var property position = elegido.position()
+  var mapa = primerNivel
   method serAtacado() { 
+    //al ser atacado, el enemigo desaparece
     game.removeVisual(self) 
   }
 
   method atacar(protagonista) {
+    //esto ocurre solamente cuando el enemigo logra llegar a Quirrel, y por tanto lo lastima
     protagonista.recibirDanio(1)
     game.removeVisual(self)
   }
 
   method moverse() {
-     return elegido.moverse()
+    //se mueve segun el elegido
+     position = elegido.moverse(position)
   }
   
   method moverHaciaQuirrel(){
@@ -35,6 +35,7 @@ class Enemigo {
   
   method spawnear() {
     if (!game.hasVisual(self)) {
+      mapa.añadirEnemigo(self)
     game.addVisual(self)
     self.moverHaciaQuirrel()
     }   
@@ -42,22 +43,27 @@ class Enemigo {
 }
 
 class Proyectil {
-  var property image = "bala.png"
+  var mapa = primerNivel
+  method image (){
+    return "bala.png"
+  }
+  
   const posiciones = #{dirUpEnemy, dirDownEnemy, dirLeftEnemy, dirRightEnemy}
-  var elegido = posiciones.anyOne()
+  const elegido = posiciones.anyOne()
+  var property position = elegido.position()
  
-  method position(){
-    return elegido.position()
-  }
+
   method moverse() {
-    return elegido.moverse()
+    position = elegido.moverse(position)
   }
+  
   method moverHaciaQuirrel(){
     game.onTick(1000, "mover proyectil", {  self.moverse() })
   }
   method spawnear() {
     if (!game.hasVisual(self)) {
     game.addVisual(self)
+    mapa.añadirProyectil(self)
     self.moverHaciaQuirrel()
     }
   }
@@ -69,11 +75,25 @@ class Proyectil {
   }
   method atacar(protagonista) {
       self.verificarSiPuedeAtacar()
-      protagonista.recibirDanio(2)
+      protagonista.recibirDanio(1)
       game.removeVisual(self)
   }
 
   method serBloqueado() {
     game.removeVisual(self)
+    mapa.sacarProyectil(self)
+  }
+}
+
+//subtipo de proyectil de hornet
+
+class Cuchillo inherits Proyectil{
+override method image (){
+    return "cuchillo"+ elegido + ".png"
+}
+override method atacar(protagonista) {
+      self.verificarSiPuedeAtacar()
+      protagonista.recibirDanio(2)
+      game.removeVisual(self)
   }
 }

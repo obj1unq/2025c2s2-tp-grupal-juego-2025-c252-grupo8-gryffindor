@@ -12,8 +12,8 @@ object dirUpEnemy {
   const protagonista = quirrel
   const facing = dirUp
 
-  method moverse(){
-    position = position.down(1)
+  method moverse(aMover) {
+    return aMover.down(1)
   }
 
   method puedeBloquearse() {
@@ -36,8 +36,8 @@ object dirDownEnemy {
     return protagonista.direccionActual() == facing and not protagonista.puedeRecibirDanio()
   }
 
-  method moverse(){
-    position = position.up(1)
+   method moverse(aMover) {
+    return aMover.up(1)
   }
 
   method calcularMovimientoHacia(posActual, target) {
@@ -52,8 +52,8 @@ object dirLeftEnemy {
   const protagonista = quirrel
   const facing = dirLeft
  
-  method moverse(){
-    position = position.right(1)
+   method moverse(aMover) {
+    return aMover.right(1)
   }
   
   method puedeBloquearse() {
@@ -71,8 +71,8 @@ object dirRightEnemy {
   const protagonista = quirrel
   const facing = dirRight
 
-  method moverse(){
-    position = position.left(1)
+   method moverse(aMover) {
+    return aMover.left(1)
   }
 
   method puedeBloquearse() {
