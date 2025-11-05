@@ -6,6 +6,7 @@ object primerNivel {
 const property enemigos = []
 const proyectiles = []
 const property spawns = #{dirUpEnemy, dirDownEnemy, dirLeftEnemy, dirRightEnemy}
+const protagonista = quirrel
 
 method añadirEnemigo(enemigo){
     enemigos.add(enemigo)
@@ -22,4 +23,7 @@ method sacarEnemigo(enemigo){
 method sacarProyectil(proyectil){
     proyectiles.remove(proyectil)
 }
+
+method actuar(){}
 }
+

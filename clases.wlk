@@ -8,10 +8,11 @@ import mapa.*
 class Enemigo {
 
   const posiciones = #{dirUpEnemy, dirDownEnemy, dirLeftEnemy, dirRightEnemy}
-  var elegido = posiciones.anyOne()
-  method image(){return "quirrel-muerto.png"}
+  const elegido = posiciones.anyOne()
+  method image(){return "enemigo-" + elegido +".png"}
   var property position = elegido.position()
   var mapa = primerNivel
+  const velocidad = 2000 //milisegundos entre cada movimiento
 
   method puntos() { return 100 }
     
@@ -34,7 +35,7 @@ class Enemigo {
   }
   
   method moverHaciaQuirrel(){
-    game.onTick(2000, "mover enemigo", { self.moverse() })
+    game.onTick(velocidad, "mover enemigo", { self.moverse() })
   }
 
   

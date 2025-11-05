@@ -4,29 +4,28 @@ import juego.quirrel.*
 import direccionesEnemigos.*
 import direccionesQuirrel.*
 
-object atacando {
-    method puedeAtacar(){
-        return true
-    }
-    method puedeRecibirDanio(){
-        return true
-    }
-  
+class EstadoQuirrel {
+method puedeAtacar(){
+    return true}
+
+method puedeRecibirDanio(){
+    return true}
+
 }
-object cubriendo {
-    method puedeAtacar(){
-        return false
-    }
-    method puedeRecibirDanio(){
+object atacando inherits EstadoQuirrel {
+}
+
+object cubriendo inherits EstadoQuirrel {
+   override method puedeAtacar(){
+        return false }
+    override method puedeRecibirDanio(){
         return false
     }
 }
 
-object normal {
-    method puedeAtacar(){
+object normal inherits EstadoQuirrel {
+    override method puedeAtacar(){
         return false
     }
-    method puedeRecibirDanio(){
-        return true
-    }
+   
 }
