@@ -12,6 +12,9 @@ method puedeRecibirDanio(){
     return true}
 
 }
+
+
+
 object atacando inherits EstadoQuirrel {
 }
 

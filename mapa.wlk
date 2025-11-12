@@ -1,6 +1,8 @@
 import wollok.game.*
 import direccionesEnemigos.*
 import clases.*
+import juego.*
+
 
 object primerNivel {
 const property enemigos = []

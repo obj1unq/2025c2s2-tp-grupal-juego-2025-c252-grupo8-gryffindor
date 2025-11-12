@@ -5,16 +5,26 @@ import direccionesEnemigos.*
 import estadosQuirrel.*
 
 
-object dirUp {
+class Direcc { // este nombre es temporario, se deberia cambiar por uno mas adecuado
   var property position = game.center()
-  var property personaje = quirrel
+  var estadoPersonaje = null
 
-
+  method estadoPersonaje(_estadoPersonaje){
+     estadoPersonaje = _estadoPersonaje
+  }
   method image() {
-    return self.imagenSegunEstado(personaje.estado())
+    return self.imagenSegunEstado(estadoPersonaje)
+  }
+  method imagenSegunEstado(estado){
+    return 
   }
 
-  method imagenSegunEstado(estado){
+}
+
+
+object dirUp inherits Direcc{
+
+  override method imagenSegunEstado(estado){
     return "quirrel-"+estado+"-arriba.png"
   }
 
@@ -26,19 +36,12 @@ object dirUp {
     return enemigo.position().y().between(self.position().y() + 1, self.position().y() + 2)
   }
 
-
-  
 }
 
-object dirDown {
-  var property position = game.center()
-  var property personaje = quirrel
 
-  method image() {
-    return self.imagenSegunEstado(personaje.estado())
-  }
+object dirDown inherits Direcc{
 
-  method imagenSegunEstado(estado){
+  override method imagenSegunEstado(estado){
     return "quirrel-"+estado+"-abajo.png"
   }
 
@@ -49,25 +52,17 @@ object dirDown {
   method puedeAtacarA(enemigo) {
     return enemigo.position().y().between(self.position().y() - 2, self.position().y() - 1)
   }
-
   
-  }
+}
 
 
-object dirLeft {
-  var property position = game.center()
-  var property personaje = quirrel
+object dirLeft inherits Direcc {
 
-
-  method image() {
-    return self.imagenSegunEstado(personaje.estado())
-  }
-
-  method imagenSegunEstado(estado){
+  override method imagenSegunEstado(estado){
     return "quirrel-"+estado+"-izquierda.png"
   }
 
-method moverse(aMover) {
+  method moverse(aMover) {
     return aMover.left(1)
   }
 
@@ -79,15 +74,9 @@ method moverse(aMover) {
 }
 
 
-object dirRight {
-  var property position = game.center()
-  var property personaje = quirrel
+object dirRight inherits Direcc {
 
-  method image() {
-    return self.imagenSegunEstado(personaje.estado())
-  }
-
-  method imagenSegunEstado(estado){
+  override method imagenSegunEstado(estado){
     return "quirrel-"+estado+"-derecha.png"
   }
 

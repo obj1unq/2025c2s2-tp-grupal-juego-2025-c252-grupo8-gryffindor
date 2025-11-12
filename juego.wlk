@@ -47,6 +47,7 @@ object quirrel {
   }
     
   method image(){
+    direccionActual.estadoActual(estado)
     return direccionActual.image()
   }
 
@@ -119,8 +120,5 @@ object quirrel {
   method mirarHaciaDireccion(direccion) {
     direccionActual = direccion
   }
-
-
-
 }
 
