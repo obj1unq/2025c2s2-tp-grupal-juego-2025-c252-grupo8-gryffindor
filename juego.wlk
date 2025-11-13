@@ -1,5 +1,7 @@
+import niveles.*
 import wollok.game.*
-import clases.*
+import classProyectiles.*
+import classEnemigos.*
 import direccionesQuirrel.*
 import direccionesEnemigos.*
 import estadosQuirrel.*
@@ -7,35 +9,8 @@ import BarraDeVida.*
 import mapa.*
 
 
-object juego {
-  
-  method cinematicaInicio() {
-    game.boardGround("fondo.jpg")
-    game.addVisual(quirrel)
-    game.say(quirrel, "¡Hola! Soy Quirrel, el valiente aventurero.")
-   /* game.schedule(3000, { game.say(quirrel, "Debo enfrentarme a los enemigos que se aproximan.") })
-    game.schedule(6000, { game.say(quirrel, "Usa las flechas para moverme x para cubrirme, y c para atacar.") })
-    game.schedule(9000, { game.say(quirrel, "¡Buena suerte!") })*/
-    game.schedule(1000, { self.iniciar() })
-  }
-
-  method iniciar() {
-    game.addVisual(mascaraDeVida)
-    game.boardGround("fondo2.jpg")
-    keyboard.right().onPressDo{ quirrel.mirarHaciaDireccion(dirRight) }
-    keyboard.left().onPressDo{ quirrel.mirarHaciaDireccion(dirLeft) }
-    keyboard.up().onPressDo{ quirrel.mirarHaciaDireccion(dirUp) }
-    keyboard.down().onPressDo{ quirrel.mirarHaciaDireccion(dirDown) }
-    keyboard.x().onPressDo{ quirrel.atacarAEnemigos() }
-    keyboard.c().onPressDo{ quirrel.bloquear() }
-    game.onTick(4000, "spawnear enemigo", { const nuevoEnemigo = new Enemigo(); nuevoEnemigo.spawnear(); })
-    game.onTick(10000, "spawnear proyectil", { const nuevoProyectil = new Proyectil(); nuevoProyectil.spawnear() })
-    game.onCollideDo(quirrel, { cosa => cosa.atacar(quirrel) }) 
-  }
-}
-
 object quirrel {
-  var puntitos = 0  
+  var property puntitos = 0  
   var property vidasDeQuirrel = 4  
   var property direccionActual = dirUp
   var property estado = normal  
@@ -47,11 +22,9 @@ object quirrel {
   }
     
   method image(){
+    direccionActual.estadoPersonaje(estado)
     return direccionActual.image()
   }
-
-  
-
 
 
 // ------------QUIRREL ATACANDO---------------
@@ -72,20 +45,13 @@ object quirrel {
     game.schedule(500, { => estado = normal })
   }
 
-
  method atacarEnemigo(enemigo){
     estado = atacando
     position = direccionActual.moverse(position)
     enemigo.serAtacado()
-    self.sumarPuntaje(enemigo.puntos())
-    game.say(self, "Muere!!, ahora tengo "+ puntitos +" puntos")
+    self.sumarPuntaje(enemigo.puntos()) // SE COMENTA PARA PASAR ESTO A NIVEL
     game.schedule(500, { position = game.center() }) 
-    
   }
-
-
-
-
 
 
 //-------------QUIRREL RECIBIR DAÑO
@@ -96,7 +62,6 @@ object quirrel {
 
   method recibirDanio(danioRecibido) {
     vidasDeQuirrel -= danioRecibido
-    game.say(self, "Me quedan " +vidasDeQuirrel+ " vidas")
     self.controlarVidasDisponibles()
   }
 
@@ -115,12 +80,8 @@ object quirrel {
 
 //------------ATACAR AL ENEMIGO EN DIRECCION------------
 
-
   method mirarHaciaDireccion(direccion) {
     direccionActual = direccion
   }
-
-
-
 }
 

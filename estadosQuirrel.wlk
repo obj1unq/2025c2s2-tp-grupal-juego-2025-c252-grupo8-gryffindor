@@ -1,5 +1,5 @@
 import wollok.game.*
-import clases.*
+import classProyectiles.*
 import juego.quirrel.*
 import direccionesEnemigos.*
 import direccionesQuirrel.*
@@ -12,6 +12,9 @@ method puedeRecibirDanio(){
     return true}
 
 }
+
+
+
 object atacando inherits EstadoQuirrel {
 }
 
