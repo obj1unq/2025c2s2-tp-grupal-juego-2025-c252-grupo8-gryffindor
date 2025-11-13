@@ -1,5 +1,5 @@
 import wollok.game.*
-import clases.*
+import classProyectiles.*
 import juego.quirrel.*
 import direccionesEnemigos.*
 import direccionesQuirrel.*

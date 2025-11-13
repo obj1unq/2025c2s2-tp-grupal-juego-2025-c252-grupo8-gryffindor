@@ -1,6 +1,8 @@
 import wollok.game.*
 import direccionesEnemigos.*
-import clases.*
+import classProyectiles.*
+import classEnemigos.*
+
 import juego.*
 
 
