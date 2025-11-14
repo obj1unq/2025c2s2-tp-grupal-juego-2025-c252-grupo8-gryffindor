@@ -1,5 +1,21 @@
 import juego.*
+import niveles.*
+import direccionesQuirrel.*
+import estadosQuirrel.*
+import wollok.test.*
+import wollok.game.*
+import mapa.*
+import classEnemigos.*
+import classProyectiles.*
+import BarraDeVida.*
+import direccionesEnemigos.*
 
 
+describe "Imagenes"{
 
+test "imagenInicial" {
+    assertEqual(quirrel.imagen(), "quirrel-derecha")
+  }
+  
+}
 

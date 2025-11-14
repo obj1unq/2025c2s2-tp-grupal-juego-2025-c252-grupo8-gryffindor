@@ -5,10 +5,7 @@ import direccionesEnemigos.*
 import estadosQuirrel.*
 
 
-object dirUp inherits Direcc{
-  override method imagenSegunEstado(estado){
-    return "quirrel-"+estado+"-arriba.png"
-  }
+object arriba inherits Direcc{
   method moverse(aMover) {
     return aMover.up(1)
   }
@@ -18,10 +15,8 @@ object dirUp inherits Direcc{
 }
 
 
-object dirDown inherits Direcc{
-  override method imagenSegunEstado(estado){
-    return "quirrel-"+estado+"-abajo.png"
-  }
+object abajo inherits Direcc{
+
  method moverse(aMover) {
     return aMover.down(1)
   }
@@ -31,10 +26,8 @@ object dirDown inherits Direcc{
 }
 
 
-object dirLeft inherits Direcc {
-  override method imagenSegunEstado(estado){
-    return "quirrel-"+estado+"-izquierda.png"
-  }
+object izquierda inherits Direcc {
+
   method moverse(aMover) {
     return aMover.left(1)
   }
@@ -44,10 +37,8 @@ object dirLeft inherits Direcc {
 }
 
 
-object dirRight inherits Direcc {
-  override method imagenSegunEstado(estado){
-    return "quirrel-"+estado+"-derecha.png"
-  }
+object derecha inherits Direcc {
+  
   method moverse(aMover) {
     return aMover.right(1)
   }
@@ -67,13 +58,5 @@ class Direcc { // este nombre es temporaL, se deberia cambiar por uno mas adecua
   var property position = game.center()
   var estadoPersonaje = null
 
-  method estadoPersonaje(_estadoPersonaje){
-     estadoPersonaje = _estadoPersonaje
-  }
-  method image() {
-    return self.imagenSegunEstado(estadoPersonaje)
-  }
-  method imagenSegunEstado(estado){
-    return 
-  }
+
 }

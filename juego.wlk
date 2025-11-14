@@ -12,7 +12,7 @@ import mapa.*
 object quirrel {
   var property puntitos = 0  
   var property vidasDeQuirrel = 4  
-  var property direccionActual = dirUp
+  var property direccionActual = derecha
   var property estado = normal  
   var property mapa = primerNivel
   var property position = game.center()
@@ -21,9 +21,7 @@ object quirrel {
     puntitos += puntaje 
   }
     
-  method image(){
-    direccionActual.estadoPersonaje(estado)
-    return direccionActual.image()
+  method image(){return "quirrel-"+ estado+"-"+direccionActual+".png"
   }
 
 

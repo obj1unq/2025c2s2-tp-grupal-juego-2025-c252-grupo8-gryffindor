@@ -7,7 +7,7 @@ import estadosQuirrel.*
 
 //--------------- DIRECCIONES ENEMIGOS---------------------------
 
-object dirUpEnemy inherits DirEnemigo (facing = dirUp){
+object dirUpEnemy inherits DirEnemigo (facing = arriba){
   var property position = game.at(6, 12)   
   
   method moverse(aMover) {
@@ -22,7 +22,7 @@ object dirUpEnemy inherits DirEnemigo (facing = dirUp){
 
 
 
-object dirDownEnemy inherits DirEnemigo (facing = dirDown){
+object dirDownEnemy inherits DirEnemigo (facing = abajo){
   var property position = game.at(6, 0)   
 
    method moverse(aMover) {
@@ -37,7 +37,7 @@ object dirDownEnemy inherits DirEnemigo (facing = dirDown){
 
 
 
-object dirLeftEnemy inherits DirEnemigo (facing = dirLeft){
+object dirLeftEnemy inherits DirEnemigo (facing = izquierda){
   var property position = game.at(0, 6)   
 
    method moverse(aMover) {
@@ -52,7 +52,7 @@ object dirLeftEnemy inherits DirEnemigo (facing = dirLeft){
 
 
 
-object dirRightEnemy inherits DirEnemigo (facing = dirRight){  
+object dirRightEnemy inherits DirEnemigo (facing = derecha){  
   var property position = game.at(12, 6)   
 
    method moverse(aMover) {

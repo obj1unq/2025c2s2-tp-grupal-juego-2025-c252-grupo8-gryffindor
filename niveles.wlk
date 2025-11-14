@@ -39,10 +39,10 @@ class Nivel {
   }
 
   method configurarControles() {
-    keyboard.right().onPressDo{ personaje.mirarHaciaDireccion(dirRight) }
-    keyboard.left().onPressDo{ personaje.mirarHaciaDireccion(dirLeft) }
-    keyboard.up().onPressDo{ personaje.mirarHaciaDireccion(dirUp) }
-    keyboard.down().onPressDo{ personaje.mirarHaciaDireccion(dirDown) }
+    keyboard.right().onPressDo{ personaje.mirarHaciaDireccion(derecha) }
+    keyboard.left().onPressDo{ personaje.mirarHaciaDireccion(izquierda) }
+    keyboard.up().onPressDo{ personaje.mirarHaciaDireccion(arriba) }
+    keyboard.down().onPressDo{ personaje.mirarHaciaDireccion(abajo) }
     keyboard.x().onPressDo{ personaje.atacarAEnemigos() }
     keyboard.c().onPressDo{ personaje.bloquear() }
   }
