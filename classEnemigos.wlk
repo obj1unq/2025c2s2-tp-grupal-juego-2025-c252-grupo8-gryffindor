@@ -66,7 +66,7 @@ object hornet inherits Enemigo {
   override method spawnear(nivel) {
     if (!game.hasVisual(self)) {
       game.addVisual(self) 
-      self.nivelActual(nivel).añadirEnemigo(self) 
+      self.nivelActual(nivel).agragarEnemigo(self) 
     }   
   }
 
