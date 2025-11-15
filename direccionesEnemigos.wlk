@@ -69,7 +69,7 @@ object dirRightEnemy inherits DirEnemigo (facing = derecha){
 
 //---------------- SUPERCLASE------------------
 
-class DirEnemigo { // este nombre es temporaL, se deberia cambiar por uno mas adecuado
+class DirEnemigo { 
   var property image = "quirrel-muerto.png"
   const protagonista = quirrel
   const facing 

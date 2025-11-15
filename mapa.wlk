@@ -6,28 +6,28 @@ import classEnemigos.*
 import juego.*
 
 
-object primerNivel {
-const property enemigos = []
-const proyectiles = []
-const property spawns = #{dirUpEnemy, dirDownEnemy, dirLeftEnemy, dirRightEnemy}
-const protagonista = quirrel
+// object primerNivel {
+// const property enemigos = []
+// const proyectiles = []
+// const property spawns = #{dirUpEnemy, dirDownEnemy, dirLeftEnemy, dirRightEnemy}
+// const protagonista = quirrel
 
-method añadirEnemigo(enemigo){
-    enemigos.add(enemigo)
-}
+// method añadirEnemigo(enemigo){
+//     enemigos.add(enemigo)
+// }
 
-method añadirProyectil(proyectil){
-    proyectiles.add(proyectil)
-}
+// method añadirProyectil(proyectil){
+//     proyectiles.add(proyectil)
+// }
 
-method sacarEnemigo(enemigo){
-    enemigos.remove(enemigo)
-}
+// method sacarEnemigo(enemigo){
+//     enemigos.remove(enemigo)
+// }
 
-method sacarProyectil(proyectil){
-    proyectiles.remove(proyectil)
-}
+// method sacarProyectil(proyectil){
+//     proyectiles.remove(proyectil)
+// }
 
-method actuar(){}
-}
+// method actuar(){}
+// }
 

@@ -10,51 +10,52 @@ import mapa.*
 
 
 object quirrel {
-  var property puntitos = 0  
+
   var property vidasDeQuirrel = 4  
   var property direccionActual = derecha
   var property estado = normal  
-  var property mapa = primerNivel
   var property position = game.center()
 
-  method sumarPuntaje(puntaje) { 
-    puntitos += puntaje 
-  }
+
     
-  method image(){return "quirrel-"+ estado+"-"+direccionActual+".png"
+  method image(){
+    return "quirrel-"+ estado+"-"+direccionActual+".png"
   }
 
+  method nivelActual(nuevoNivel){
+    return nuevoNivel
+  }
 
 // ------------QUIRREL ATACANDO---------------
 
-  method enemigosCercanos(){  // devuelve una lista con los enemigos cercanos que vienen en la direccion actual.
-    return mapa.enemigos().filter{ enemigo =>  direccionActual.puedeAtacarA(enemigo) }//
+  method enemigosCercanos(nivel){ 
+    return self.nivelActual(nivel).enemigos().filter{ enemigo =>  direccionActual.puedeAtacarA(enemigo) }//
   }
 
-  method validarSiHayAmigosCercanos(){
-     if (self.enemigosCercanos().isEmpty()) {
-      self.error("No hay enemigos cercanos ")        
+  method validarSiHayAmigosCercanos(nivel){
+     if (self.enemigosCercanos(nivel).isEmpty()) {
+          self.error("No hay enemigos cercanos ")        
     }   
   }
 
-  method atacarAEnemigos() {
-    self.validarSiHayAmigosCercanos()
-    self.enemigosCercanos().forEach{ enemigo => self.atacarEnemigo(enemigo) }
+  method atacarAEnemigos(nivel) {
+    self.validarSiHayAmigosCercanos(nivel)
+    self.enemigosCercanos(nivel).forEach{ enemigo => self.atacarEnemigo(enemigo, self.nivelActual(nivel)) }
     game.schedule(500, { => estado = normal })
   }
 
- method atacarEnemigo(enemigo){
+  method atacarEnemigo(enemigo, nivel){
     estado = atacando
     position = direccionActual.moverse(position)
-    enemigo.serAtacado()
-    self.sumarPuntaje(enemigo.puntos()) // SE COMENTA PARA PASAR ESTO A NIVEL
+    enemigo.serAtacado(nivel) 
     game.schedule(500, { position = game.center() }) 
   }
 
 
+
 //-------------QUIRREL RECIBIR DAÑO
 
-  method puedeRecibirDanio(){ // indica si el estado actual de quirrel puede recibir algun daño
+  method puedeRecibirDanio(){ 
     return estado.puedeRecibirDanio()
   }
 
@@ -69,6 +70,7 @@ object quirrel {
       game.schedule(2000, { game.stop() })
     }   
   }
+
 //--------------QUIRREL CUBRIRSE-------------------
 
   method bloquear() {
@@ -76,10 +78,7 @@ object quirrel {
     game.schedule(500, { => estado = normal })
   }
 
-//------------ATACAR AL ENEMIGO EN DIRECCION------------
-
   method mirarHaciaDireccion(direccion) {
     direccionActual = direccion
   }
 }
-
