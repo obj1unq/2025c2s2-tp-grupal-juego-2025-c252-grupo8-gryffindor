@@ -47,7 +47,7 @@ class Enemigo {
   method spawnear(nivel) {
     if (!game.hasVisual(self)) { 
     game.addVisual(self)
-    self.nivelActual(nivel).añadirEnemigo(self)
+    self.nivelActual(nivel).agregarEnemigo(self)
     self.moverHaciaQuirrel()
     }   
   }

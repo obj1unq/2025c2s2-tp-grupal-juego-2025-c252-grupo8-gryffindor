@@ -25,13 +25,13 @@ class Nivel {
 
   const property spawns = #{dirUpEnemy, dirDownEnemy, dirLeftEnemy, dirRightEnemy}
 
-  method añadirEnemigo(enemigo){
+  method agregarEnemigo(enemigo){
       enemigos.add(enemigo)
   }
   method sacarEnemigo(enemigo){
       enemigos.remove(enemigo)
   }
-  method anadirProyectil(proyectil){
+  method agregarProyectil(proyectil){
       proyectiles.add(proyectil)
   }
   method sacarProyectil(proyectil){
