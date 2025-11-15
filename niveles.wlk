@@ -31,7 +31,7 @@ class Nivel {
   method sacarEnemigo(enemigo){
       enemigos.remove(enemigo)
   }
-  method añadirProyectil(proyectil){
+  method anadirProyectil(proyectil){
       proyectiles.add(proyectil)
   }
   method sacarProyectil(proyectil){

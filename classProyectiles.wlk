@@ -41,7 +41,7 @@ class Proyectil {
   method spawnear(nivel) {
     if (!game.hasVisual(self)) {
     game.addVisual(self)
-    self.nivelActual(nivel).añadirProyectil(self)
+    nivel.anadirProyectil(self)
     self.moverHaciaQuirrel()
     }
   }
