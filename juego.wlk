@@ -27,29 +27,18 @@ object quirrel {
 
 // ------------QUIRREL ATACANDO---------------
 
-  method enemigosCercanos(){  // devuelve una lista con los enemigos cercanos que vienen en la direccion actual.
-    return mapa.enemigos().filter{ enemigo =>  direccionActual.puedeAtacarA(enemigo) }//
-  }
 
-  method validarSiHayAmigosCercanos(){
-     if (self.enemigosCercanos().isEmpty()) {
-      self.error("No hay enemigos cercanos ")        
-    }   
-  }
-
-  method atacarAEnemigos() {
-    self.validarSiHayAmigosCercanos()
-    self.enemigosCercanos().forEach{ enemigo => self.atacarEnemigo(enemigo) }
-    game.schedule(500, { => estado = normal })
-  }
-
- method atacarEnemigo(enemigo){
+ method atacarAEnemigos(){
     estado = atacando
-    position = direccionActual.moverse(position)
-    enemigo.serAtacado()
-    self.sumarPuntaje(enemigo.puntos()) // SE COMENTA PARA PASAR ESTO A NIVEL
-    game.schedule(500, { position = game.center() }) 
+    self.moverseAlAtacar()
+    estado.atacarAEnemigos(mapa, direccionActual)
+    game.schedule(500, { position = game.center()})
+    estado = normal
   }
+ method moverseAlAtacar(){
+  if (position == game.center())
+    position = direccionActual.moverse(position)
+ }
 
 
 //-------------QUIRREL RECIBIR DAÑO
