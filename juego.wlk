@@ -94,4 +94,5 @@ object quirrel {
   method mirarHaciaDireccion(direccion) {
     direccionActual = direccion
   }
+
 }
