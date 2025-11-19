@@ -120,7 +120,7 @@ object nivel2 inherits Nivel {//(fondo = "fondo2.jpg")
    return "fondo2.jpg"
   }
     override method puntajeRequerido(){
-        return 0
+        return 300
     }
 }
 

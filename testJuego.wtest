@@ -9,13 +9,18 @@ import classProyectiles.*
 import BarraDeVida.*
 import direccionesEnemigos.*
 
-
+  const enemigo1 = new Enemigo(position = game.at(4, 6))
+  //const nivel1 = new Nivel()
 describe "Imagenes"{
+  method initialize() {
+    quirrel.direccionActual(derecha)
+    nivel1.agregarEnemigo(enemigo1)
+  }
 
 test "imagenInicial" {
     assert.equals( quirrel.image(), "quirrel-normal-derecha.png")
   }
-}
+
 test "fondo de nivel" {
   game.start()
   juego.nivelActual(1)
@@ -23,3 +28,20 @@ test "fondo de nivel" {
   
 }
 
+test "Hay un enemigo cerca hacia la derecha " {
+  assert.that( not quirrel.enemigosCercanos(nivel1).isEmpty())
+
+}
+
+test "No hay un enemigo cerca hacia la izquierda" {
+  quirrel.direccionActual(izquierda)
+  assert.throwsException({quirrel.validarSiHayAmigosCercanos(nivel1)})
+  
+}
+
+
+
+
+
+
+}

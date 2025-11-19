@@ -15,6 +15,7 @@ object quirrel {
   var property direccionActual = derecha
   var property estado = normal  
   var property position = game.center()
+ 
   
 
 
@@ -29,20 +30,20 @@ object quirrel {
 
 // ------------QUIRREL ATACANDO---------------
 
-  method enemigosCercanos(nivel){ 
+  method enemigosCercanos(nivel){  // DEVUELVE UNA LISTA DE LOS ENEMIGOS CERCANOS HACIA LA DIRECCION EN LA QUE ESTA
     return self.nivelActual(nivel).enemigos().filter{ enemigo =>  direccionActual.puedeAtacarA(enemigo) }//
   }
 
-  method validarSiHayAmigosCercanos(nivel){
+  method validarSiHayAmigosCercanos(nivel){ // si ni hay un enemigo cerca lanza un error
      if (self.enemigosCercanos(nivel).isEmpty()) {
           self.error("No hay enemigos cercanos ")        
     }   
   }
 
   method atacarAEnemigos(nivel) {
-     estado = atacando
+    estado = atacando
     self.moverseAlAtacar()
-    estado.atacarAEnemigos(nivel, direccionActual)
+    estado.atacarAEnemigos(nivel, direccionActual) // deriba la accion de atacat al estado
     game.schedule(500, {estado = normal })
     
   }

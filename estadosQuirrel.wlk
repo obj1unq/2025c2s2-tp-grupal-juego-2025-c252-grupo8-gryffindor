@@ -5,33 +5,39 @@ import direccionesEnemigos.*
 import direccionesQuirrel.*
 
 class EstadoQuirrel {
-method puedeAtacar(){
-    return true}
+    method puedeAtacar(){
+        return true
+    }
 
-method puedeRecibirDanio(){
-    return true}
+    method puedeRecibirDanio(){
+        return true
+    }
+    
+    method atacarAEnemigos(nivel, dirección) {
+   }
 
 }
 
 
 
 object atacando inherits EstadoQuirrel {
-        method atacarAEnemigos(nivel, dirección) {
-    self.validarSiHayAmigosCercanos(nivel, dirección)
-    self.enemigosCercanos(nivel, dirección).forEach{ enemigo => self.atacarEnemigo(enemigo, nivel)}//agregar aca que despues de atacar al enemigo se sumeel puntaje al mapa
+
+    override method atacarAEnemigos(nivel, dirección) {
+        self.validarSiHayAmigosCercanos(nivel, dirección)
+        self.enemigosCercanos(nivel, dirección).forEach{ enemigo => self.atacarEnemigo(enemigo, nivel)}//agregar aca que despues de atacar al enemigo se sumeel puntaje al mapa
    }
      
-       method validarSiHayAmigosCercanos(nivel, dirección){
-     if (self.enemigosCercanos(nivel, dirección).isEmpty()) {
-      self.error("No hay enemigos cercanos ")        
+    method validarSiHayAmigosCercanos(nivel, dirección){
+        if (self.enemigosCercanos(nivel, dirección).isEmpty()) {
+            self.error("No hay enemigos cercanos ")        
     }   
   }
-      method enemigosCercanos(nivel,dirección){  // devuelve una lista con los enemigos cercanos que vienen en la direccion actual.
-    return nivel.enemigos().filter{ enemigo =>  dirección.puedeAtacarA(enemigo) }//
+    method enemigosCercanos(nivel,dirección){  // devuelve una lista con los enemigos cercanos que vienen en la direccion actual.
+        return nivel.enemigos().filter{ enemigo =>  dirección.puedeAtacarA(enemigo) }//
   }
 
    method atacarEnemigo(enemigo, nivel){
-    enemigo.serAtacado(nivel)
+        enemigo.serAtacado(nivel)
    }
   
 }
