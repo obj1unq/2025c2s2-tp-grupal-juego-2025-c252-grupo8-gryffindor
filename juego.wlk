@@ -15,7 +15,7 @@ object quirrel {
   var property direccionActual = derecha
   var property estado = normal  
   var property position = game.center()
- 
+ const property ruidos = []
   
 
 

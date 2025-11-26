@@ -7,7 +7,7 @@ import estadosQuirrel.*
 import BarraDeVida.*
 import mapa.*
 import juego.*
-
+import fondo.*
 
 class Nivel {
   var property enemigos = []
@@ -18,9 +18,13 @@ class Nivel {
   const personaje = quirrel
  // const fondo
   method puntajeRequerido()
-  method fondo()
+ const fondoGeneral = fondo
  
+ method fondoNivel(){
+    return null}
 
+method numeroCinematica(){
+  return 5}
 
   //-------------------------------------------------------------------------
 
@@ -45,19 +49,17 @@ class Nivel {
   method cinematicaInicio() {
     game.clear()
     game.addVisual(fondo)
-    fondo.cinematica(self, 3)
-    game.schedule(4000, {game.addVisual(personaje)})
+    fondoGeneral.cinematica(self, self.numeroCinematica())
     // game.say(quirrel, "¡Hola! Soy Quirrel, el valiente aventurero.")
     // game.schedule(3000, { game.say(quirrel, "Debo enfrentarme a los enemigos que se aproximan.") })
     // game.schedule(6000, { game.say(quirrel, "Usa las flechas para moverme x para cubrirme, y c para atacar.") })
     // game.schedule(8000, { game.say(quirrel, "¡Buena suerte!") })
-    game.schedule(1000, { self.iniciar() })
   }
 
   method iniciar() {
     personaje.nivelActual(self) 
     marcadorDePuntos.nivelActual(self)
-
+     game.schedule(4000, {game.addVisual(personaje)})
     game.addVisual(mascaraDeVida)
     game.addVisual(marcadorPuntos)
     game.addVisual(marcadorVidas)
@@ -107,7 +109,7 @@ class Nivel {
 // no logro que la imagen de fondo cambie de un nivel a otro, intente de las dos maneras que estan, pero solo se queda con la primera.
 object nivel1 inherits Nivel {//(fondo = "fondo.jpg")
 
-  override method fondo(){
+  override method fondoNivel(){
     return "fondo.jpg"
    }
     override method puntajeRequerido(){
@@ -117,7 +119,7 @@ object nivel1 inherits Nivel {//(fondo = "fondo.jpg")
 
 object nivel2 inherits Nivel {//(fondo = "fondo2.jpg")
 
-  override method fondo(){
+  override method fondoNivel(){
    return "fondo2.jpg"
   }
     override method puntajeRequerido(){
@@ -183,28 +185,6 @@ object marcadorVidas {
 }
 
 
-// object fondo 
-
-object fondo {
-  var property position = game.at(0,0)
- var property image = "nivel1-cinematica1.png"
-var property contador = 1
-method cinematica(nivel, limite){
-game.onTick(3000, "aumentarCinematica", {self.cambiarImagenCinematica(nivel, limite)})
-self.imagenNormal(nivel)
-}
-
-method cambiarImagenCinematica(nivel, limite){
- image = nivel+"-cinematica"+contador+".png"
-  contador = contador + 1
- if (contador > limite){
-    game.removeTickEvent("aumentarCinematica")}
- }
-
- method imagenNormal(nivel){
-   image = "fondo"+nivel+".jpg"
- }
-}
 
 
 
