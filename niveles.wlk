@@ -7,7 +7,7 @@ import estadosQuirrel.*
 import BarraDeVida.*
 import mapa.*
 import juego.*
-
+import fondo.*
 
 class Nivel {
   var property enemigos = []
@@ -16,11 +16,20 @@ class Nivel {
   var property completado = false
   const marcadorDePuntos = marcadorPuntos
   const personaje = quirrel
+
+  method musicaDeNivel(){
+    return game.sound("musicaDeFondoNivel1.mp3")
+  }
+
  // const fondo
   method puntajeRequerido()
-  method fondo()
+ const fondoGeneral = fondo
  
+ method fondoNivel(){
+    return null}
 
+method numeroCinematica(){
+  return 5}
 
   //-------------------------------------------------------------------------
 
@@ -43,20 +52,31 @@ class Nivel {
 
 
   method cinematicaInicio() {
+     keyboard.e().onPressDo{ fondoGeneral.saltarCinematica() }
     game.clear()
-    game.boardGround(self.fondo())
-    game.addVisual(personaje)
+    self.tocarMusica()
+    game.addVisual(fondo)
+    fondoGeneral.cinematica(self, self.numeroCinematica())
     // game.say(quirrel, "¡Hola! Soy Quirrel, el valiente aventurero.")
     // game.schedule(3000, { game.say(quirrel, "Debo enfrentarme a los enemigos que se aproximan.") })
     // game.schedule(6000, { game.say(quirrel, "Usa las flechas para moverme x para cubrirme, y c para atacar.") })
     // game.schedule(8000, { game.say(quirrel, "¡Buena suerte!") })
-    game.schedule(1000, { self.iniciar() })
   }
+
+  method tocarMusica(){
+    self.musicaDeNivel().play()
+  }
+
+  method pararMusica(){
+     self.musicaDeNivel().stop()
+  }
+
+
 
   method iniciar() {
     personaje.nivelActual(self) 
     marcadorDePuntos.nivelActual(self)
-
+    game.schedule(4000, {game.addVisual(personaje)})
     game.addVisual(mascaraDeVida)
     game.addVisual(marcadorPuntos)
     game.addVisual(marcadorVidas)
@@ -106,7 +126,7 @@ class Nivel {
 // no logro que la imagen de fondo cambie de un nivel a otro, intente de las dos maneras que estan, pero solo se queda con la primera.
 object nivel1 inherits Nivel {//(fondo = "fondo.jpg")
 
-  override method fondo(){
+  override method fondoNivel(){
     return "fondo.jpg"
    }
     override method puntajeRequerido(){
@@ -116,7 +136,7 @@ object nivel1 inherits Nivel {//(fondo = "fondo.jpg")
 
 object nivel2 inherits Nivel {//(fondo = "fondo2.jpg")
 
-  override method fondo(){
+  override method fondoNivel(){
    return "fondo2.jpg"
   }
     override method puntajeRequerido(){
@@ -151,12 +171,10 @@ object juego {
   }
 
   method avanzarNivel() {
-    nivelActual = nivelActual + 1 game.onTick(1000, "verificar progreso", { self.verificarProgreso() })
+    nivelActual.pararMusica() nivelActual = nivelActual + 1 game.onTick(1000, "verificar progreso", { self.verificarProgreso() })
       self.iniciarNivelActual()
- 
 }
 }
-
 
 object marcadorPuntos {
   var property position = game.at(3,12)
@@ -180,9 +198,6 @@ object marcadorVidas {
     return "Vidas: " + personaje.vidasDeQuirrel()
   }
 }
-
-
-
 
 
 
