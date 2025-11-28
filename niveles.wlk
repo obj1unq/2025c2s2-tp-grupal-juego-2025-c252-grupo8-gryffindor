@@ -16,6 +16,11 @@ class Nivel {
   var property completado = false
   const marcadorDePuntos = marcadorPuntos
   const personaje = quirrel
+
+  method musicaDeNivel(){
+    return game.sound("musicaDeFondoNivel1.mp3")
+  }
+
  // const fondo
   method puntajeRequerido()
  const fondoGeneral = fondo
@@ -47,7 +52,9 @@ method numeroCinematica(){
 
 
   method cinematicaInicio() {
+     keyboard.e().onPressDo{ fondoGeneral.saltarCinematica() }
     game.clear()
+    self.tocarMusica()
     game.addVisual(fondo)
     fondoGeneral.cinematica(self, self.numeroCinematica())
     // game.say(quirrel, "¡Hola! Soy Quirrel, el valiente aventurero.")
@@ -56,10 +63,20 @@ method numeroCinematica(){
     // game.schedule(8000, { game.say(quirrel, "¡Buena suerte!") })
   }
 
+  method tocarMusica(){
+    self.musicaDeNivel().play()
+  }
+
+  method pararMusica(){
+     self.musicaDeNivel().stop()
+  }
+
+
+
   method iniciar() {
     personaje.nivelActual(self) 
     marcadorDePuntos.nivelActual(self)
-     game.schedule(4000, {game.addVisual(personaje)})
+    game.schedule(4000, {game.addVisual(personaje)})
     game.addVisual(mascaraDeVida)
     game.addVisual(marcadorPuntos)
     game.addVisual(marcadorVidas)
@@ -154,12 +171,10 @@ object juego {
   }
 
   method avanzarNivel() {
-    nivelActual = nivelActual + 1 game.onTick(1000, "verificar progreso", { self.verificarProgreso() })
+    nivelActual.pararMusica() nivelActual = nivelActual + 1 game.onTick(1000, "verificar progreso", { self.verificarProgreso() })
       self.iniciarNivelActual()
- 
 }
 }
-
 
 object marcadorPuntos {
   var property position = game.at(3,12)

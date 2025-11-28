@@ -15,7 +15,6 @@ object quirrel {
   var property direccionActual = derecha
   var property estado = normal  
   var property position = game.center()
- const property ruidos = []
   
 
 
@@ -43,6 +42,7 @@ object quirrel {
   method atacarAEnemigos(nivel) {
     estado = atacando
     self.moverseAlAtacar()
+    game.sound("desenvaina.wav").play()
     estado.atacarAEnemigos(nivel, direccionActual) // deriba la accion de atacat al estado
     game.schedule(500, {estado = normal })
     
