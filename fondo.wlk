@@ -15,9 +15,19 @@ var property saltearCinematica = false
 
 method image(){  return ""+nivelActual+"-cinematica"+ contador+".png"}
 
+<<<<<<< HEAD
 
  method cinematica(nivel, limite){
   contador = 1
+=======
+method saltarCinematica(){
+  saltearCinematica = true
+  game.removeTickEvent("aumentarCinematica")
+  nivelActual.iniciar()
+}
+
+ method cinematica(nivel, limite){
+>>>>>>> main
 nivelActual = nivel
 game.onTick(5000, "aumentarCinematica", {self.cambiarImagenCinematica(nivel, limite)})
 
