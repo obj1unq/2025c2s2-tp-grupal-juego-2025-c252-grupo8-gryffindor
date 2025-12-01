@@ -27,7 +27,8 @@ test "fondo de nivel" {
   assert.equals(game, "fondo2.jpg" )
   
 }
-
+}
+describe "enemigoscercanos"{
 test "Hay un enemigo cerca hacia la derecha " {
   assert.that( not quirrel.enemigosCercanos(nivel1).isEmpty())
 
@@ -39,9 +40,14 @@ test "No hay un enemigo cerca hacia la izquierda" {
   
 }
 
+test "hay un enemigo a la derecha y a la izquierda" {
+  const enemigo  = new Enemigo(position = game.at(6,4))
+  quirrel.direccionActual(derecha)
+  assert.that( not quirrel.enemigosCercanos(nivel1).isEmpty())
+  quirrel.direccionActual(izquierda)
+  nivel1.agregarEnemigo(new Enemigo(position = game.at(1,4)))
+  assert.that( not quirrel.enemigosCercanos(nivel1).isEmpty())
 
 
-
-
-
+}
 }

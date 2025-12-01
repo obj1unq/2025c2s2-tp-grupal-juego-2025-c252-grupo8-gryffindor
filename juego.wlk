@@ -20,7 +20,7 @@ object quirrel {
 
     
   method image(){
-    return "quirrel-"+ estado+"-"+direccionActual+".png"
+    return "quirrel-"+ estado+"-"+direccionActual+".gif"
   }
 
   method nivelActual(nuevoNivel){
