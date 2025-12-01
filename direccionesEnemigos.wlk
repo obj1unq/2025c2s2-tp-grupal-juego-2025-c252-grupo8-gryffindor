@@ -14,10 +14,7 @@ object dirUpEnemy inherits DirEnemigo (facing = arriba){
     return aMover.down(1)
   }
   
-  method calcularMovimientoHacia(posActual, target) {
-    const diffY = target.y() - posActual.y()
-    return if (diffY > 0) posActual.up(1) else posActual // Mueve hacia arriba si Quirrel está más arriba
-  }
+ 
 }
 
 
@@ -28,10 +25,7 @@ object dirDownEnemy inherits DirEnemigo (facing = abajo){
    method moverse(aMover) {
     return aMover.up(1)
   }
-  method calcularMovimientoHacia(posActual, target) {
-    const diffY = target.y() - posActual.y()
-    return if (diffY < 0) posActual.down(1) else posActual // Mueve hacia abajo si Quirrel está más abajo
-  }
+
 }
 
 
@@ -43,10 +37,7 @@ object dirLeftEnemy inherits DirEnemigo (facing = izquierda){
    method moverse(aMover) {
     return aMover.right(1)
   }
-  method calcularMovimientoHacia(posActual, target) {
-    const diffX = target.x() - posActual.x()
-    return if (diffX < 0) posActual.left(1) else posActual // Mueve a la izquierda si Quirrel está a la izquierda
-  }
+  
 }
 
 
@@ -58,10 +49,7 @@ object dirRightEnemy inherits DirEnemigo (facing = derecha){
    method moverse(aMover) {
     return aMover.left(1)
   }
-  method calcularMovimientoHacia(posActual, target) {
-    const diffX = target.x() - posActual.x()
-    return if (diffX > 0) posActual.right(1) else posActual // Mueve a la derecha si Quirrel está a la derecha
-  }
+ 
 
 }
  

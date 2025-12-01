@@ -8,6 +8,7 @@ import classEnemigos.*
 import classProyectiles.*
 import BarraDeVida.*
 import direccionesEnemigos.*
+import fondo.*
 
   const enemigo1 = new Enemigo(position = game.at(4, 6))
   //const nivel1 = new Nivel()
@@ -18,36 +19,91 @@ describe "Imagenes"{
   }
 
 test "imagenInicial" {
-    assert.equals( quirrel.image(), "quirrel-normal-derecha.png")
+    assert.equals( quirrel.image(), "quirrel-normal-derecha.gif")
   }
 
 test "fondo de nivel" {
   game.start()
-  juego.nivelActual(1)
-  assert.equals(game, "fondo2.jpg" )
-  
+  assert.equals(fondo.image(), "nivel1-cinematica1.png")
+}
+
+test "cinematica nivel 1" {
+  assert.equals(nivel1.numeroCinematica(), 5)
+
+    game.start()
+  assert.equals(fondo.image(), "nivel1-cinematica1.png")
+  fondo.cambiarImagenCinematica(nivel1, 5)
+  assert.equals(fondo.image(), "nivel1-cinematica2.png")
+  fondo.cambiarImagenCinematica(nivel1, 5)
+  assert.equals(fondo.image(), "nivel1-cinematica3.png")
+  fondo.cambiarImagenCinematica(nivel1, 5)
+
+  assert.equals(fondo.image(), "nivel1-cinematica4.png")
+  fondo.cambiarImagenCinematica(nivel1, 5)
+  assert.equals(fondo.image(), "nivel1-cinematica5.png")
+
+
+}
+
+test "cinematica nivel 2" {
+  assert.equals(nivel2.numeroCinematica(), 4)
+  game.start()
+  juego.avanzarNivel()
+  assert.equals(fondo.image(), "nivel2-cinematica1.png")
+  fondo.cambiarImagenCinematica(nivel2, 4)
+  assert.equals(fondo.image(), "nivel2-cinematica2.png")
+  fondo.cambiarImagenCinematica(nivel2, 4)
+  assert.equals(fondo.image(), "nivel2-cinematica3.png")
+  fondo.cambiarImagenCinematica(nivel2, 4)
+  assert.equals(fondo.image(), "nivel2-cinematica4.png")  
 }
 }
+
+
+
 describe "enemigoscercanos"{
-test "Hay un enemigo cerca hacia la derecha " {
+    method initialize() {
+    quirrel.direccionActual(derecha)
+    quirrel.estado(atacando)
+    nivel1.agregarEnemigo(enemigo1)
+  }
+
+
+  test "comprobar donde está quirrel" {
+    assert.equals( quirrel.position(), game.center())
+    assert.equals( game.at(2,2), game.center())
+
+  }
+test "todo vacio" {
   assert.that( not quirrel.enemigosCercanos(nivel1).isEmpty())
 
 }
 
 test "No hay un enemigo cerca hacia la izquierda" {
   quirrel.direccionActual(izquierda)
-  assert.throwsException({quirrel.validarSiHayAmigosCercanos(nivel1)})
+  assert.throwsException({quirrel.estado().validarSiHayAmigosCercanos(nivel1, quirrel.direccionActual())})
   
 }
 
 test "hay un enemigo a la derecha y a la izquierda" {
-  const enemigo  = new Enemigo(position = game.at(6,4))
+  const enemigo  = new Enemigo(position = game.at(3,2))
+  enemigo.spawnear(nivel1)
   quirrel.direccionActual(derecha)
   assert.that( not quirrel.enemigosCercanos(nivel1).isEmpty())
   quirrel.direccionActual(izquierda)
+
   nivel1.agregarEnemigo(new Enemigo(position = game.at(1,4)))
   assert.that( not quirrel.enemigosCercanos(nivel1).isEmpty())
 
 
 }
+
+test "hay a la derecha pero quirrel no mira para ese lado" {
+  const enemigo  = new Enemigo(position = game.at(3,2))
+  enemigo.spawnear(nivel1)
+  quirrel.direccionActual(izquierda)
+  assert.throwsException({quirrel.estado().validarSiHayAmigosCercanos(nivel1,quirrel.direccionActual())})
+}
+
+
 }

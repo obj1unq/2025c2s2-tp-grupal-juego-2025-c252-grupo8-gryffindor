@@ -15,6 +15,7 @@ class EstadoQuirrel {
     
     method atacarAEnemigos(nivel, dirección) {
    }
+   
 
 }
 

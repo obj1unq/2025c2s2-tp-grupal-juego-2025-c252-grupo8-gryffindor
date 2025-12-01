@@ -8,7 +8,7 @@ import BarraDeVida.*
 import mapa.*
 import juego.*
 import fondo.*
-
+import boss.*
 class Nivel {
   var property enemigos = []
   var property proyectiles = []
@@ -141,8 +141,8 @@ object nivel2 inherits Nivel {
 
 
 object juego {
-  var property niveles = [nivel1, nivel2]
-  var property nivelActual = 0
+  var property niveles = [nivel1, nivel2, nivel3]
+  var property nivelActual = 2
 
 
   method iniciarNivelActual() {
