@@ -8,7 +8,11 @@ import BarraDeVida.*
 import mapa.*
 import juego.*
 import fondo.*
+<<<<<<< HEAD
+import boss.*
+=======
 
+>>>>>>> main
 class Nivel {
   var property enemigos = []
   var property proyectiles = []
@@ -123,22 +127,31 @@ method numeroCinematica(){
 }
 
 
-// no logro que la imagen de fondo cambie de un nivel a otro, intente de las dos maneras que estan, pero solo se queda con la primera.
-object nivel1 inherits Nivel {//(fondo = "fondo.jpg")
 
+<<<<<<< HEAD
+object nivel1 inherits Nivel {
+
+=======
   override method fondoNivel(){
     return "fondo.jpg"
    }
+>>>>>>> main
     override method puntajeRequerido(){
         return 300
     }
 }
 
+<<<<<<< HEAD
+object nivel2 inherits Nivel {
+ override method numeroCinematica(){
+    return 4}
+=======
 object nivel2 inherits Nivel {//(fondo = "fondo2.jpg")
 
   override method fondoNivel(){
    return "fondo2.jpg"
   }
+>>>>>>> main
     override method puntajeRequerido(){
         return 300
     }
@@ -146,12 +159,13 @@ object nivel2 inherits Nivel {//(fondo = "fondo2.jpg")
 
 
 object juego {
-  var property niveles = [nivel1, nivel2]
+  var property niveles = [nivel1, nivel2, nivel3]
   var property nivelActual = 0
 
 
   method iniciarNivelActual() {
     niveles.get(nivelActual).cinematicaInicio() }
+
   method verificarProgreso() {
     if (self.juegoTermino()) {
       game.say(self, "¡Juego completado!")
@@ -171,8 +185,14 @@ object juego {
   }
 
   method avanzarNivel() {
+<<<<<<< HEAD
+    nivelActual = nivelActual + 1
+    self.verificarProgreso() 
+    self.iniciarNivelActual()
+=======
     nivelActual.pararMusica() nivelActual = nivelActual + 1 game.onTick(1000, "verificar progreso", { self.verificarProgreso() })
       self.iniciarNivelActual()
+>>>>>>> main
 }
 }
 

@@ -9,9 +9,9 @@ import mapa.*
 
 class Enemigo {
   const posiciones = #{dirUpEnemy, dirDownEnemy, dirLeftEnemy, dirRightEnemy}
-  const elegido = posiciones.anyOne()
+  var property elegido = posiciones.anyOne()
   var property position = elegido.position()
-  const velocidad = 2000 
+  method lentitud(){return 2000 }
 
   method puntos() { 
     return 100 
@@ -30,7 +30,7 @@ class Enemigo {
   }  
 
   method moverHaciaQuirrel(){
-    game.onTick(velocidad, "mover enemigo", { self.moverse() })
+    game.onTick(self.lentitud(), "mover enemigo", { self.moverse() })
   }   
 
   method serAtacado(nivel) { 
@@ -54,6 +54,13 @@ class Enemigo {
   
 }
 
+class Araña inherits Enemigo {
+
+  override method image() {
+    return "arana-" + elegido +".gif"
+  }
+  override method lentitud(){ return 1000 }
+}
 /*------------------------------------------------------
                      HORNET
 -------------------------------------------------------*/

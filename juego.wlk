@@ -20,7 +20,7 @@ object quirrel {
 
     
   method image(){
-    return "quirrel-"+ estado+"-"+direccionActual+".png"
+    return "quirrel-"+ estado+"-"+direccionActual+".gif"
   }
 
   method nivelActual(nuevoNivel){
@@ -33,18 +33,12 @@ object quirrel {
     return self.nivelActual(nivel).enemigos().filter{ enemigo =>  direccionActual.puedeAtacarA(enemigo) }//
   }
 
-  method validarSiHayAmigosCercanos(nivel){ // si ni hay un enemigo cerca lanza un error
-     if (self.enemigosCercanos(nivel).isEmpty()) {
-          self.error("No hay enemigos cercanos ")        
-    }   
-  }
-
   method atacarAEnemigos(nivel) {
     estado = atacando
     self.moverseAlAtacar()
     game.sound("desenvaina.wav").play()
     estado.atacarAEnemigos(nivel, direccionActual) // deriba la accion de atacat al estado
-    game.schedule(500, {estado = normal })
+    game.schedule(500,{=> estado = normal})
     
   }
     /*self.validarSiHayAmigosCercanos(nivel)
