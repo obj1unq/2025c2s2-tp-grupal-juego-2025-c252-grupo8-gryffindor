@@ -123,22 +123,17 @@ method numeroCinematica(){
 }
 
 
-// no logro que la imagen de fondo cambie de un nivel a otro, intente de las dos maneras que estan, pero solo se queda con la primera.
-object nivel1 inherits Nivel {//(fondo = "fondo.jpg")
 
-  override method fondoNivel(){
-    return "fondo.jpg"
-   }
+object nivel1 inherits Nivel {
+
     override method puntajeRequerido(){
         return 300
     }
 }
 
-object nivel2 inherits Nivel {//(fondo = "fondo2.jpg")
-
-  override method fondoNivel(){
-   return "fondo2.jpg"
-  }
+object nivel2 inherits Nivel {
+ override method numeroCinematica(){
+    return 4}
     override method puntajeRequerido(){
         return 300
     }
@@ -152,6 +147,7 @@ object juego {
 
   method iniciarNivelActual() {
     niveles.get(nivelActual).cinematicaInicio() }
+
   method verificarProgreso() {
     if (self.juegoTermino()) {
       game.say(self, "¡Juego completado!")
@@ -171,8 +167,9 @@ object juego {
   }
 
   method avanzarNivel() {
-    nivelActual.pararMusica() nivelActual = nivelActual + 1 game.onTick(1000, "verificar progreso", { self.verificarProgreso() })
-      self.iniciarNivelActual()
+    nivelActual = nivelActual + 1
+    self.verificarProgreso() 
+    self.iniciarNivelActual()
 }
 }
 
