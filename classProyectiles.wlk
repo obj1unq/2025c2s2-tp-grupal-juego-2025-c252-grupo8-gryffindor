@@ -30,7 +30,7 @@ class Proyectil {
   method serBloqueado(nivel) {
         game.sound("bloqueo.wav").play()
     game.removeVisual(self)
-    self.nivelActual(nivel).sacarProyectil(self)
+    nivel.sacarProyectil(self)
   }  
 
   method atacar(protagonista) {

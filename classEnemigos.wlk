@@ -34,8 +34,8 @@ class Enemigo {
   }   
 
   method serAtacado(nivel) { 
-    self.nivelActual(nivel).sacarEnemigo(self)
-    self.nivelActual(nivel).sumarPuntos(self.puntos())
+    nivel.sacarEnemigo(self)
+    nivel.sumarPuntos(self.puntos())
     game.removeVisual(self) 
   }
 
@@ -47,7 +47,7 @@ class Enemigo {
   method spawnear(nivel) {
     if (!game.hasVisual(self)) { 
     game.addVisual(self)
-    self.nivelActual(nivel).agregarEnemigo(self)
+    nivel.agregarEnemigo(self)
     self.moverHaciaQuirrel()
     }   
   }
@@ -66,7 +66,7 @@ object hornet inherits Enemigo {
   override method spawnear(nivel) {
     if (!game.hasVisual(self)) {
       game.addVisual(self) 
-      self.nivelActual(nivel).agragarEnemigo(self) 
+      nivel.agregarEnemigo(self) 
     }   
   }
 

@@ -8,6 +8,7 @@ import BarraDeVida.*
 import mapa.*
 import juego.*
 import fondo.*
+import boss.*
 
 class Nivel {
   var property enemigos = []
@@ -25,8 +26,7 @@ class Nivel {
   method puntajeRequerido()
  const fondoGeneral = fondo
  
- method fondoNivel(){
-    return null}
+ method fondoNivel()
 
 method numeroCinematica(){
   return 5}
@@ -55,7 +55,7 @@ method numeroCinematica(){
      keyboard.e().onPressDo{ fondoGeneral.saltarCinematica() }
     game.clear()
     self.tocarMusica()
-    game.addVisual(fondo)
+   game.boardGround(self.fondoNivel()) // game.addVisual(self.fondoNivel())// game.addVisual(fondo)
     fondoGeneral.cinematica(self, self.numeroCinematica())
     // game.say(quirrel, "¡Hola! Soy Quirrel, el valiente aventurero.")
     // game.schedule(3000, { game.say(quirrel, "Debo enfrentarme a los enemigos que se aproximan.") })
@@ -77,7 +77,7 @@ method numeroCinematica(){
     personaje.nivelActual(self) 
     marcadorDePuntos.nivelActual(self)
     game.schedule(4000, {game.addVisual(personaje)})
-    game.addVisual(mascaraDeVida)
+    // game.addVisual(mascaraDeVida)
     game.addVisual(marcadorPuntos)
     game.addVisual(marcadorVidas)
     self.configurarControles()
@@ -146,12 +146,14 @@ object nivel2 inherits Nivel {//(fondo = "fondo2.jpg")
 
 
 object juego {
-  var property niveles = [nivel1, nivel2]
+  var property niveles = [nivelFinal]
+// var property niveles = [nivel1, nivel2]
   var property nivelActual = 0
 
 
   method iniciarNivelActual() {
     niveles.get(nivelActual).cinematicaInicio() }
+    
   method verificarProgreso() {
     if (self.juegoTermino()) {
       game.say(self, "¡Juego completado!")
@@ -233,3 +235,5 @@ object marcadorVidas {
 //   //   game.onCollideDo(quirrel, { cosa => cosa.atacar(quirrel) }) 
 //   // }
 // }
+
+
