@@ -185,14 +185,9 @@ object juego {
   }
 
   method avanzarNivel() {
-<<<<<<< HEAD
     nivelActual = nivelActual + 1
     self.verificarProgreso() 
     self.iniciarNivelActual()
-=======
-    nivelActual.pararMusica() nivelActual = nivelActual + 1 game.onTick(1000, "verificar progreso", { self.verificarProgreso() })
-      self.iniciarNivelActual()
->>>>>>> main
 }
 }
 
