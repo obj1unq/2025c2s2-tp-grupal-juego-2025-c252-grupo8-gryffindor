@@ -64,14 +64,15 @@ method spawnearEnemigo(nivel){
    nivel.agregarEnemigo(invocado)
    game.addVisual(invocado)
   }
-*/
-  method reaparecer(nivel) {
+
+method reaparecer(nivel) {
   
     if (vidas > 0) {
       self.aparecer(nivel)
     }
   }
-  
+  */
+
   // Cuando Quirrel lo ataca
   override method serAtacado(nivel) {
     game.removeTickEvent("mover enemigo")
@@ -109,18 +110,18 @@ method rodear(nivel){
    method tirarCuchillo(nivel){
     const nuevoCuchillo = new Cuchillo(elegido = self.elegido())
     nuevoCuchillo.spawnear(nivel)
-    game.schedule(10000, { self.actuar(nivel) })
+    game.schedule(4000, { self.actuar(nivel) })
   }
 
   method crearAraña(nivel){
     const nuevaAraña = new Araña(elegido = self.elegido())
     nuevaAraña.spawnear(nivel)
-    game.schedule(15000, { self.actuar(nivel) })
+    game.schedule(5000, { self.actuar(nivel) })
   }
 
   //basesde ataque
 
-override method lentitud(){ return 500 }
+override method lentitud(){ return 1500 }
 
   method ataqueDirecto(nivel){
     //al hace un ataque directo se mueve hacia quirrel

@@ -142,7 +142,7 @@ object nivel2 inherits Nivel {
 
 object juego {
   var property niveles = [nivel1, nivel2, nivel3]
-  var property nivelActual = 2
+  var property nivelActual = 0
 
 
   method iniciarNivelActual() {

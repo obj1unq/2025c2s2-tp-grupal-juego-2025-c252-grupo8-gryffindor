@@ -57,8 +57,50 @@ test "cinematica nivel 2" {
   fondo.cambiarImagenCinematica(nivel2, 4)
   assert.equals(fondo.image(), "nivel2-cinematica4.png")  
 }
-}
 
+test "imagenDeAraña"{
+  const arañita = new Araña(elegido = dirUpEnemy)
+  assert.equals( arañita.image(), "arana-dirUpEnemy.gif")
+
+  arañita.elegido(dirDownEnemy)
+  assert.equals( arañita.image(), "arana-dirDownEnemy.gif")
+
+  arañita.elegido(dirLeftEnemy)
+  assert.equals( arañita.image(), "arana-dirLeftEnemy.gif")
+
+  arañita.elegido(dirRightEnemy)
+  assert.equals( arañita.image(), "arana-dirRightEnemy.gif")
+}
+}
+describe "direccionesenemigos"{
+  test "moverse hacia arriba" {
+    const direccion = dirUpEnemy
+    const posicionInicial = game.at(6,12)
+    const nuevaPosicion = direccion.moverse(posicionInicial)
+    assert.equals( game.at(6,11), nuevaPosicion)
+  }
+
+  test "moverse hacia abajo" {
+    const direccion = dirDownEnemy
+    const posicionInicial = game.at(6,0)
+    const nuevaPosicion = direccion.moverse(posicionInicial)
+    assert.equals( game.at(6,1), nuevaPosicion)
+  }
+
+  test "moverse hacia la izquierda" {
+    const direccion = dirLeftEnemy
+    const posicionInicial = game.at(0,6)
+    const nuevaPosicion = direccion.moverse(posicionInicial)
+    assert.equals( game.at(1,6), nuevaPosicion)
+  }
+
+  test "moverse hacia la derecha" {
+    const direccion = dirRightEnemy
+    const posicionInicial = game.at(12,6)
+    const nuevaPosicion = direccion.moverse(posicionInicial)
+    assert.equals( game.at(11,6), nuevaPosicion)
+  }
+}
 
 
 describe "enemigoscercanos"{
