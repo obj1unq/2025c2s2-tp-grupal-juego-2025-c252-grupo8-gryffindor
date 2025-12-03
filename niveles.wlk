@@ -137,7 +137,7 @@ class Nivel {
 
 object nivel1 inherits Nivel {
   override method puntajeRequerido(){
-    return 500
+    return 1000
   }
   
   }
@@ -148,7 +148,11 @@ object nivel2 inherits Nivel {
   override method numeroCinematica(){return 4}
   
   override method puntajeRequerido(){
-    return 500
+    return 700
+  }
+  override   method spawnear() {
+    game.onTick(4000, "spawnear enemigo",{ self.configurarSpawns(new Enemigo())})
+    game.onTick(8000, "spawnear proyectil",{ self.configurarSpawns(new Proyectil())})
   }
     override method tocarMusica(){}
 }
