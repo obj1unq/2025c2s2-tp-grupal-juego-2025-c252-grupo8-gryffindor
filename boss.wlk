@@ -12,6 +12,9 @@ object jefeFinal inherits Enemigo {
   var property image = "boss.gif"
   override method image(){return image}
   method random(){return (1..100).anyOne() }
+  method ruidoLanzamiento(){ 
+    game.sound("lanzamientoJefe.mp3").play()
+  }
 
   // Aparición del jefe en una posición aleatoria
   override method spawnear(nivel) {
@@ -100,6 +103,7 @@ object nivel3 inherits Nivel {
     self.verificarSiCompletoLospuntos()
   }
 
+override method numeroCinematica(){return 4}
   override method verificarSiCompletoLospuntos() {
     if (jefe.vidas() <= 0) {
       completado = true
@@ -112,4 +116,5 @@ object nivel3 inherits Nivel {
   }
 
   override method puntajeRequerido(){}
+    override method tocarMusica(){}
 }

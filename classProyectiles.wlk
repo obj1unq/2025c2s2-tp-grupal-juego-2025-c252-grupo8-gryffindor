@@ -14,6 +14,7 @@ class Proyectil {
   method image (){
     return "bala.png"
   } 
+  
 
   method nivelActual(unNivel) {
     return unNivel
@@ -28,7 +29,7 @@ class Proyectil {
   }
 
   method serBloqueado(nivel) {
-        game.sound("bloqueo.wav").play()
+    
     game.removeVisual(self)
     self.nivelActual(nivel).sacarProyectil(self)
   }  

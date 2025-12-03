@@ -19,9 +19,14 @@ class Nivel {
   const marcadorDePuntos = marcadorPuntos
   const personaje = quirrel
 
-  method musicaDeNivel(){
-    return game.sound("musicaDeFondoNivel1.mp3")
+  method sonidoDeAtaque(){
+    game.sound("desenvaina.wav").play()
   }
+   method sonidoDebloqueo(){
+    game.sound("bloqueo.wav").play()
+  }
+
+
 
   method puntajeRequerido()
 
@@ -51,6 +56,7 @@ class Nivel {
 
 
   method cinematicaInicio() {
+   self.tocarMusica()
     keyboard.e().onPressDo{ fondoGeneral.saltarCinematica() }
     game.clear()
     self.tocarMusica()
@@ -61,13 +67,11 @@ class Nivel {
     game.schedule(6000, { game.say(quirrel, "Usa las flechas para moverme x para cubrirme, y c para atacar.") })
     game.schedule(8000, { game.say(quirrel, "¡Buena suerte!") })
   }
-
   method tocarMusica(){
-    self.musicaDeNivel().play()
-  }
-
-  method pararMusica(){
-     self.musicaDeNivel().stop()
+    const musica = game.sound("musicaDeFondo.mp3")
+    musica.shouldLoop(true)
+    musica.volume(0.2)
+    musica.play()
   }
 
   method iniciar() {
@@ -87,14 +91,18 @@ class Nivel {
     keyboard.left().onPressDo{ personaje.mirarHaciaDireccion(izquierda) }
     keyboard.up().onPressDo{ personaje.mirarHaciaDireccion(arriba) }
     keyboard.down().onPressDo{ personaje.mirarHaciaDireccion(abajo) }
-    keyboard.x().onPressDo{ personaje.atacarAEnemigos(self) }
-    keyboard.c().onPressDo{ personaje.bloquear() }
-  }
+    keyboard.x().onPressDo{ personaje.atacarAEnemigos(self); self.sonidoDebloqueo()}
+    keyboard.c().onPressDo{ personaje.bloquear();self.sonidoDebloqueo()}}
+  
+  
 
   method spawnear() {
     game.onTick(4000, "spawnear enemigo",{ self.configurarSpawns(new Enemigo())})
     game.onTick(10000, "spawnear proyectil",{ self.configurarSpawns(new Proyectil())})
   }
+
+  
+   
 
   method configurarSpawns(enemigo){
     const nuevoEnemigo = enemigo
@@ -131,14 +139,18 @@ object nivel1 inherits Nivel {
   override method puntajeRequerido(){
     return 500
   }
-}
+  
+  }
+
 
 
 object nivel2 inherits Nivel {
   override method numeroCinematica(){return 4}
+  
   override method puntajeRequerido(){
     return 500
   }
+    override method tocarMusica(){}
 }
 
 

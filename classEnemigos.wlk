@@ -58,25 +58,20 @@ class Enemigo {
 -------------------------------------------------------*/
 class Araña inherits Enemigo {
 
+method ruido(){
+  game.sound("caminar.mp3").play()
+}
+
   override method image() {
     return "arana-" + elegido +".gif"
   }
   override method lentitud(){ return 1000 }
+  override method moverse() {
+     super()
+      self.ruido()  
+
+  }
 }
 /*------------------------------------------------------
                      HORNET
 -------------------------------------------------------*/
-
-object hornet inherits Enemigo {
-
-  override method image() {
-    return "hornet.png"
-  }
-  override method spawnear(nivel) {
-    if (!game.hasVisual(self)) {
-      game.addVisual(self) 
-      self.nivelActual(nivel).agragarEnemigo(self) 
-    }   
-  }
-
-}

@@ -58,6 +58,30 @@ test "cinematica nivel 2" {
   assert.equals(fondo.image(), "nivel2-cinematica4.png")  
 }
 
+test "cinematica despues de aumentarNivel"{
+  game.start()
+    assert.equals(nivel1.numeroCinematica(), 5)
+
+    game.start()
+  assert.equals(fondo.image(), "nivel1-cinematica1.png")
+  fondo.cambiarImagenCinematica(nivel1, 5)
+  assert.equals(fondo.image(), "nivel1-cinematica2.png")
+  fondo.cambiarImagenCinematica(nivel1, 5)
+  assert.equals(fondo.image(), "nivel1-cinematica3.png")
+  fondo.cambiarImagenCinematica(nivel1, 5)
+
+  assert.equals(fondo.image(), "nivel1-cinematica4.png")
+  fondo.cambiarImagenCinematica(nivel1, 5)
+  assert.equals(fondo.image(), "nivel1-cinematica5.png")
+  juego.avanzarNivel()
+  assert.equals("nivel2-cinematica1.png", "nivel2-cinematica5.png")
+  fondo.cambiarImagenCinematica(nivel2, 4)
+  assert.equals(fondo.image(), "nivel2-cinematica2.png")
+  fondo.cambiarImagenCinematica(nivel2, 4)
+  assert.equals(fondo.image(), "nivel2-cinematica3.png")
+  fondo.cambiarImagenCinematica(nivel2, 4)
+  assert.equals(fondo.image(), "nivel2-cinematica4.png")
+}
 test "imagenDeAraña"{
   const arañita = new Araña(elegido = dirUpEnemy)
   assert.equals( arañita.image(), "arana-dirUpEnemy.gif")
