@@ -6,7 +6,7 @@ import estadosQuirrel.*
 import classEnemigos.*
 import niveles.*
 
-
+ 
 
 program juegoGame {
   game.title("Quirrel")  
@@ -16,4 +16,4 @@ program juegoGame {
   juego.iniciarNivelActual()
   game.start()
 
-}
+} 

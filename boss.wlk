@@ -4,8 +4,8 @@ import wollok.game.*
 import niveles.*
 import direccionesEnemigos.*
 
-
-
+  
+ 
 object jefeFinal inherits Enemigo {
   var property vidas = 5
 

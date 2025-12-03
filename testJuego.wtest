@@ -20,7 +20,7 @@ describe "Imagenes"{
 
 test "imagenInicial" {
     assert.equals( quirrel.image(), "quirrel-normal-derecha.gif")
-  }
+  }   
 
 test "fondo de nivel" {
   game.start()

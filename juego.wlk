@@ -7,7 +7,7 @@ import direccionesEnemigos.*
 import estadosQuirrel.*
 import BarraDeVida.*
 import mapa.*
-
+ 
 
 object quirrel {
 
@@ -17,7 +17,7 @@ object quirrel {
   var property position = game.center()
   
 
-
+  
     
   method image(){
     return "quirrel-"+ estado+"-"+direccionActual+".gif"
