@@ -53,7 +53,9 @@ class Enemigo {
   }
   
 }
-
+/*------------------------------------------------------
+                     ARAÑA
+-------------------------------------------------------*/
 class Araña inherits Enemigo {
 
   override method image() {
@@ -77,8 +79,4 @@ object hornet inherits Enemigo {
     }   
   }
 
-  method lanzarCuchillo(){
-    const nuevoCuchillo = new Cuchillo()
-    nuevoCuchillo.spawnear()
-  }
 }
