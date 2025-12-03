@@ -23,14 +23,11 @@ class Nivel {
     return game.sound("musicaDeFondoNivel1.mp3")
   }
 
- // const fondo
   method puntajeRequerido()
- const fondoGeneral = fondo
- 
- method fondoNivel(){
-    return null}
 
-method numeroCinematica(){
+  const fondoGeneral = fondo
+
+  method numeroCinematica(){
   return 5}
 
   //-------------------------------------------------------------------------
@@ -54,15 +51,15 @@ method numeroCinematica(){
 
 
   method cinematicaInicio() {
-     keyboard.e().onPressDo{ fondoGeneral.saltarCinematica() }
+    keyboard.e().onPressDo{ fondoGeneral.saltarCinematica() }
     game.clear()
     self.tocarMusica()
     game.addVisual(fondo)
     fondoGeneral.cinematica(self, self.numeroCinematica())
-    // game.say(quirrel, "¡Hola! Soy Quirrel, el valiente aventurero.")
-    // game.schedule(3000, { game.say(quirrel, "Debo enfrentarme a los enemigos que se aproximan.") })
-    // game.schedule(6000, { game.say(quirrel, "Usa las flechas para moverme x para cubrirme, y c para atacar.") })
-    // game.schedule(8000, { game.say(quirrel, "¡Buena suerte!") })
+    game.say(quirrel, "¡Hola! Soy Quirrel, el valiente aventurero.")
+    game.schedule(3000, { game.say(quirrel, "Debo enfrentarme a los enemigos que se aproximan.") })
+    game.schedule(6000, { game.say(quirrel, "Usa las flechas para moverme x para cubrirme, y c para atacar.") })
+    game.schedule(8000, { game.say(quirrel, "¡Buena suerte!") })
   }
 
   method tocarMusica(){
@@ -73,8 +70,6 @@ method numeroCinematica(){
      self.musicaDeNivel().stop()
   }
 
-
-
   method iniciar() {
     personaje.nivelActual(self) 
     marcadorDePuntos.nivelActual(self)
@@ -83,7 +78,7 @@ method numeroCinematica(){
     game.addVisual(marcadorPuntos)
     game.addVisual(marcadorVidas)
     self.configurarControles()
-    self.configurarSpawns()
+    self.spawnear()
     self.configurarColisiones()
   }
 
@@ -96,9 +91,15 @@ method numeroCinematica(){
     keyboard.c().onPressDo{ personaje.bloquear() }
   }
 
-  method configurarSpawns() {
-    game.onTick(4000, "spawnear enemigo", {const nuevoEnemigo = new Enemigo();nuevoEnemigo.nivelActual(self) ; nuevoEnemigo.spawnear(self)})
-    game.onTick(10000, "spawnear proyectil",{const nuevoProyectil = new Proyectil(); nuevoProyectil.nivelActual(self); nuevoProyectil.spawnear(self)})
+  method spawnear() {
+    game.onTick(4000, "spawnear enemigo",{ self.configurarSpawns(new Enemigo())})
+    game.onTick(10000, "spawnear proyectil",{ self.configurarSpawns(new Proyectil())})
+  }
+
+  method configurarSpawns(enemigo){
+    const nuevoEnemigo = enemigo
+    nuevoEnemigo.nivelActual(self)
+    nuevoEnemigo.spawnear(self)
   }
 
   method configurarColisiones() {
@@ -127,17 +128,17 @@ method numeroCinematica(){
 
 
 object nivel1 inherits Nivel {
-
-    override method puntajeRequerido(){
-        return 300
-    }
+  override method puntajeRequerido(){
+    return 500
+  }
 }
 
+
 object nivel2 inherits Nivel {
- override method numeroCinematica(){return 4}
-    override method puntajeRequerido(){
-        return 300
-    }
+  override method numeroCinematica(){return 4}
+  override method puntajeRequerido(){
+    return 500
+  }
 }
 
 
@@ -149,7 +150,7 @@ object juego {
   method iniciarNivelActual() {
     niveles.get(nivelActual).cinematicaInicio() }
 
-  method verificarProgreso() {
+  method verificarProgreso() {    
     if (self.juegoTermino()) {
       game.say(self, "¡Juego completado!")
       game.schedule(1000, {game.stop()})
@@ -171,7 +172,7 @@ object juego {
     nivelActual = nivelActual + 1
     self.verificarProgreso() 
     self.iniciarNivelActual()
-}
+  }
 }
 
 
@@ -183,7 +184,9 @@ object marcadorPuntos {
   method nivelActual(_nivel) {
     nivelActual =  _nivel
   }
-  method text() {
+
+  //si llamo al metodo que recibe el nivel, este metodo tambien deberia tener un parametro, cuando lo agrego este deja de mostrarse en pantalla
+  method text() { 
     return "Puntos: " + nivelActual.puntajeActual()
   }
 }
@@ -198,38 +201,3 @@ object marcadorVidas {
     return "Vidas: " + personaje.vidasDeQuirrel()
   }
 }
-
-
-
-
-
-
-
-// object juego {
-  
-//   method cinematicaInicio() {
-//     game.boardGround("fondo.jpg")
-//     game.addVisual(quirrel)
-//     game.say(quirrel, "¡Hola! Soy Quirrel, el valiente aventurero.")
-//    /* game.schedule(3000, { game.say(quirrel, "Debo enfrentarme a los enemigos que se aproximan.") })
-//     game.schedule(6000, { game.say(quirrel, "Usa las flechas para moverme x para cubrirme, y c para atacar.") })
-//     game.schedule(9000, { game.say(quirrel, "¡Buena suerte!") })*/
-//     game.schedule(1000, { niveles.iniciar() })
-//   }
-
-//   // method iniciar() {
-//   //   game.addVisual(mascaraDeVida)
-//   //   game.boardGround("fondo2.jpg")
-
-//   //   keyboard.right().onPressDo{ quirrel.mirarHaciaDireccion(dirRight) }
-//   //   keyboard.left().onPressDo{ quirrel.mirarHaciaDireccion(dirLeft) }
-//   //   keyboard.up().onPressDo{ quirrel.mirarHaciaDireccion(dirUp) }
-//   //   keyboard.down().onPressDo{ quirrel.mirarHaciaDireccion(dirDown) }
-//   //   keyboard.x().onPressDo{ quirrel.atacarAEnemigos() }
-//   //   keyboard.c().onPressDo{ quirrel.bloquear() }
-
-//   //   game.onTick(4000, "spawnear enemigo", { const nuevoEnemigo = new Enemigo(); nuevoEnemigo.spawnear(); })
-//   //   game.onTick(10000, "spawnear proyectil", { const nuevoProyectil = new Proyectil(); nuevoProyectil.spawnear() })
-//   //   game.onCollideDo(quirrel, { cosa => cosa.atacar(quirrel) }) 
-//   // }
-// }
