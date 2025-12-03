@@ -7,13 +7,11 @@ import direccionesEnemigos.*
   
  
 object jefeFinal inherits Enemigo {
-  var property vidas = 5
 
-  // var property visible = false
+  var property vidas = 5
   var property image = "boss.gif"
-  override method image(){ return image}
-  
-  method random(){ return (1..100).anyOne() }
+  override method image(){return image}
+  method random(){return (1..100).anyOne() }
 
   // Aparición del jefe en una posición aleatoria
   override method spawnear(nivel) {
@@ -23,8 +21,6 @@ object jefeFinal inherits Enemigo {
   }
 
   method aparecer(nivel) {
-    // position = posiciones.anyOne().position() // self.position()///aparece en un aposicion cualquieraelegido.position()/
-    // visible = true
     game.addVisual(self)
     nivel.agregarEnemigo(self) //se agrega al nivel
     game.schedule(4000, {self.actuar(nivel)}) // Decide acción: invocar o moverse
@@ -38,40 +34,14 @@ object jefeFinal inherits Enemigo {
   method atacarAQuirrel(nivel){
     const random = self.random()
     if (random < 40 ) { 
-      self.crearAraña(nivel)
+      self.tirarEnemigo(nivel, new Araña(elegido = self.elegido()))
     } else if (random <=80) {
-      self.tirarCuchillo(nivel) 
+      self.tirarEnemigo(nivel, new Cuchillo(elegido = self.elegido()))
     }
     else {
-        self.ataqueDirecto(nivel)
+      self.ataqueDirecto(nivel)
     }
   }
-
-  
-
-  /* Invoca entre 2 y 3 enemigos comunes, uno detrás de otro
-  method invocarOleada(nivel) {
-    const tiempos = [1000, 2000, 3000]   // dos enemigos, en momentos fijos
-     tiempos.forEach{ tiempo =>
-      game.schedule(tiempo, { self.spawnearEnemigo(nivel) })
-    }
-  }
-
-
-method spawnearEnemigo(nivel){
-   const invocado = 
-   invocado.spawnear(nivel)
-   nivel.agregarEnemigo(invocado)
-   game.addVisual(invocado)
-  }
-
-method reaparecer(nivel) {
-  
-    if (vidas > 0) {
-      self.aparecer(nivel)
-    }
-  }
-  */
 
   // Cuando Quirrel lo ataca
   override method serAtacado(nivel) {
@@ -85,7 +55,6 @@ method reaparecer(nivel) {
   }
   
   method morir(nivel) {
-   
     game.say(self, "BIEN BIEN... TU GANAS")
     game.schedule(2000, { game.stop() })
   }
@@ -97,74 +66,50 @@ method reaparecer(nivel) {
       game.say(protagonista, "Quirrel pierde")
       game.schedule(2000, { game.stop() })
     }
-   game.removeTickEvent("mover enemigo")
+    game.removeTickEvent("mover enemigo")
   }
-//bases del movimiento
-method rodear(nivel){
+
+  //bases del movimiento
+  method rodear(nivel){
     elegido = posiciones.anyOne()
-   position = elegido.position()
-   game.schedule(2000, { self.actuar(nivel) })
+    position = elegido.position()
+    game.schedule(2000, { self.actuar(nivel) })
   }
 
-  //bases de spawneo de enemigos y proyectiles
-   method tirarCuchillo(nivel){
-    const nuevoCuchillo = new Cuchillo(elegido = self.elegido())
-    nuevoCuchillo.spawnear(nivel)
-    game.schedule(4000, { self.actuar(nivel) })
+  method tirarEnemigo(nivel, enemigo){
+    const nuevoEnemigo = enemigo
+    nuevoEnemigo.spawnear(nivel)
   }
 
-  method crearAraña(nivel){
-    const nuevaAraña = new Araña(elegido = self.elegido())
-    nuevaAraña.spawnear(nivel)
-    game.schedule(5000, { self.actuar(nivel) })
-  }
+  override method lentitud(){ return 1500 }
 
-  //basesde ataque
-
-override method lentitud(){ return 1500 }
-
+  //al hacer un ataque directo se mueve hacia quirrel
   method ataqueDirecto(nivel){
-    //al hace un ataque directo se mueve hacia quirrel
     self.moverHaciaQuirrel()
-  }
-
- 
-  }
-
-
-
-
-
+  } 
+}
 
 
 
 
 object nivel3 inherits Nivel {
 
-var property jefe = jefeFinal
-
+  var property jefe = jefeFinal
   // En este nivel no se suman puntos, la condición es derrotar al jefe
-override method sumarPuntos(cantidad) {
-  self.verificarSiCompletoLospuntos()
-
-}
-
-override method verificarSiCompletoLospuntos() {
-  if (jefe.vidas() <= 0) {
-    completado = true
+  override method sumarPuntos(cantidad) {
+    self.verificarSiCompletoLospuntos()
   }
-}
 
+  override method verificarSiCompletoLospuntos() {
+    if (jefe.vidas() <= 0) {
+      completado = true
+    }
+  }
  
-  override method puntajeRequerido(){}
-  
-
-  
-  override method configurarSpawns() {
+  override method spawnear() {
     game.schedule(5000, { jefe.spawnear(self) })
     // No usamos spawns automáticos en el nivel final
   }
 
-
-
+  override method puntajeRequerido(){}
 }
